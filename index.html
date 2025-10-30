@@ -58,16 +58,18 @@
             text-align: center;
         }
         .step-item { position: relative; }
-        .step-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 40px;
-            right: -16px;
-            width: 100%;
-            border-top: 2px dashed var(--primary-color);
-            transform: translateX(-50%);
-            opacity: 0.3;
-        }
+      /* --- 請找到並替換這段 CSS --- */
+
+	.step-item:not(:last-child)::after {
+ 	   content: '';
+ 	   position: absolute;
+ 	   top: 40px; /* 垂直位置不變，對齊圓圈中心 */
+	    left: 50%; /* 從目前項目的水平中心開始 */
+	    width: calc(100% + 32px); /* 關鍵！寬度 = 項目寬度 + 間距 */
+	    border-top: 2px dashed var(--primary-color);
+	    opacity: 0.3;
+	    /* 移除不必要的 transform 和 right 屬性 */
+	}
         .step-number {
             width: 80px; height: 80px;
             background: var(--primary-color); color: #fff;
