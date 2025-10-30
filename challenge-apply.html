@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提案申請：遠距醫療健康照護方案 - 場域實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 (與前頁相同) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+            --error-color: #dc3545;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.7; }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- 主要內容區域 --- */
+        main {
+            padding: 48px 0 64px;
+        }
+
+        .proposal-form {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .form-header h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        .form-header p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+        
+        .form-section {
+            margin-bottom: 32px;
+        }
+        .form-section h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .form-section h2 i {
+            margin-right: 12px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+        
+        .form-group label.required::after {
+            content: ' *';
+            color: var(--error-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 92, 99, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-text {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 6px;
+        }
+
+        .file-upload-wrapper {
+            position: relative;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .file-upload-wrapper:hover {
+            border-color: var(--primary-color);
+        }
+        .file-upload-wrapper input[type="file"] {
+            display: none;
+        }
+        .file-upload-wrapper .file-upload-text {
+            color: var(--text-light);
+        }
+        .file-upload-wrapper .file-upload-text i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+        }
+        #file-name {
+            margin-top: 12px;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+        }
+        .form-check input[type="checkbox"] {
+            width: 1.25em;
+            height: 1.25em;
+            margin-right: 10px;
+        }
+        
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            margin-top: 32px;
+        }
+        .btn-submit:hover {
+            background-color: #216e45;
+            transform: translateY(-2px);
+        }
+
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; max-width: 1200px;}
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .social-links a { color: #fff; font-size: 1.5rem; margin-left: 16px; transition: color 0.3s ease; }
+        .social-links a:hover { color: var(--secondary-color); }
+        
+        /* --- 響應式設計 --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .form-grid { grid-template-columns: 1fr; }
+            .proposal-form { padding: 24px; }
+            .form-header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="challenges.html">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主要內容 -->
+    <main>
+        <div class="container">
+            <form class="proposal-form" action="#" method="POST" enctype="multipart/form-data">
+                <div class="form-header">
+                    <h1>提案申請</h1>
+                    <p>挑戰主題：遠距醫療健康照護方案</p>
+                </div>
+
+                <!-- 申請單位資訊 -->
+                <section class="form-section">
+                    <h2><i class="fa-solid fa-users"></i> 申請單位資訊</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="company-name" class="required">公司／團隊名稱</label>
+                            <input type="text" id="company-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-person" class="required">主要聯絡人</label>
+                            <input type="text" id="contact-person" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email" class="required">聯絡 Email</label>
+                            <input type="email" id="contact-email" class="form-control" placeholder="example@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-phone" class="required">聯絡電話</label>
+                            <input type="tel" id="contact-phone" class="form-control" placeholder="0912-345-678" required>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 提案內容 -->
+                <section class="form-section">
+                    <h2><i class="fa-solid fa-file-alt"></i> 提案內容</h2>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="proposal-title" class="required">提案標題</label>
+                            <input type="text" id="proposal-title" class="form-control" placeholder="例如：AI 賦能的社區長者健康守護平台" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="proposal-summary" class="required">提案摘要</label>
+                            <textarea id="proposal-summary" class="form-control" rows="5" placeholder="請簡要說明您的解決方案、創新性及預期效益（500字以內）" required></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="team-intro" class="required">團隊介紹</label>
+                            <textarea id="team-intro" class="form-control" rows="4" placeholder="請簡述團隊核心成員、相關經驗與分工（300字以內）" required></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 上傳附件 -->
+                <section class="form-section">
+                    <h2><i class="fa-solid fa-paperclip"></i> 上傳附件</h2>
+                    <div class="form-group">
+                        <label for="proposal-file" class="required">詳細計畫書</label>
+                        <label for="proposal-file" class="file-upload-wrapper">
+                            <div class="file-upload-text">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                點擊此處或拖曳檔案至此上傳
+                                <p class="form-text">（限 PDF、DOC、DOCX 格式，檔案大小不超過 10MB）</p>
+                            </div>
+                            <input type="file" id="proposal-file" accept=".pdf,.doc,.docx" required>
+                        </label>
+                        <div id="file-name"></div>
+                    </div>
+                </section>
+
+                <!-- 條款與送出 -->
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" id="terms-agree" required>
+                        <label for="terms-agree" class="required">我已閱讀並同意本平台的<a href="#" target="_blank">服務條款</a>與<a href="#" target="_blank">隱私權政策</a></label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> 確認送出提案</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 簡單的 JS 顯示上傳的檔案名稱
+        const fileInput = document.getElementById('proposal-file');
+        const fileNameDisplay = document.getElementById('file-name');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileNameDisplay.textContent = '已選擇檔案：' + this.files[0].name;
+            } else {
+                fileNameDisplay.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
