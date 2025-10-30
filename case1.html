@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成功案例：AI 改善停車場管理效率 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        a { text-decoration: none; color: var(--primary-color); }
+        .btn { display: inline-block; padding: 12px 24px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .btn:hover { background-color: #0a4a50; transform: translateY(-2px); }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style: none; gap: 24px; }
+        .nav-links a { color: var(--text-color); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- 主內容區 --- */
+        main { padding: 48px 0; }
+        
+        /* 頁面標題與麵包屑 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+        }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-light); margin-bottom: 16px; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .page-header h1 { font-size: 2.8rem; color: var(--primary-color); font-weight: 700; margin-bottom: 8px;}
+        .category-tag {
+            display: inline-block; background-color: var(--secondary-color); color: #fff;
+            padding: 4px 12px; border-radius: 20px; font-size: 0.9rem; font-weight: 500;
+        }
+
+        /* 案例詳情兩欄式佈局 */
+        .story-detail-layout {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+        
+        /* 左側主內容 */
+        .story-content .hero-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 {
+            font-size: 1.8rem; margin-bottom: 16px; color: var(--primary-color);
+            border-left: 4px solid var(--secondary-color); padding-left: 12px;
+        }
+
+        /* 實證成果區塊 */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+            text-align: center;
+        }
+        .result-item {
+            background: var(--background-color);
+            padding: 24px;
+            border-radius: 12px;
+        }
+        .result-item i { font-size: 2.5rem; color: var(--secondary-color); margin-bottom: 12px; }
+        .result-value { display: block; font-size: 2.2rem; font-weight: 700; color: var(--primary-color); }
+        .result-label { font-size: 0.9rem; color: var(--text-light); }
+
+        /* 合作夥伴感言區塊 */
+        .testimonial-box {
+            background-color: var(--background-color);
+            padding: 24px;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .testimonial-box blockquote { font-style: italic; margin-bottom: 12px; color: var(--text-color); }
+        .testimonial-box cite { font-style: normal; font-weight: 700; display: block; text-align: right;}
+        .testimonial-box .cite-title { font-size: 0.9rem; color: var(--text-light); display: block; text-align: right;}
+
+        /* 右側側邊欄 */
+        .sidebar { position: sticky; top: 100px; }
+        .sidebar-box {
+            background: #fff; padding: 24px; border-radius: 12px;
+            box-shadow: var(--card-shadow); margin-bottom: 32px; border: 1px solid var(--border-color);
+        }
+        .sidebar-box h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); }
+        .sidebar-box ul { list-style: none; }
+        .sidebar-box ul li { display: flex; align-items: flex-start; margin-bottom: 16px; font-size: 1rem; }
+        .sidebar-box ul i { color: var(--secondary-color); margin-right: 12px; width: 20px; text-align: center; margin-top: 4px; }
+        .sidebar-box .info-label { font-weight: 700; display: block; }
+        .sidebar-box .info-value { color: var(--text-light); }
+        .cta-box { text-align: center; }
+
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; margin-top: 64px; }
+        
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .story-detail-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-top: 40px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <a href="#">首頁</a> &gt; <a href="#">成功案例</a> &gt; <span>智慧城市停車管理</span>
+                </div>
+                <h1>新創 A 公司以 AI 改善停車場管理效率</h1>
+                <span class="category-tag">智慧城市</span>
+            </div>
+
+            <div class="story-detail-layout">
+                <!-- 左側主內容 -->
+                <article class="story-content">
+                    <img src="https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?auto=format&fit=crop&w=1400&q=80" alt="Modern office building with people working" class="hero-image">
+
+                    <section class="content-section">
+                        <h2>挑戰摘要</h2>
+                        <p>市府行政大樓附屬停車場長期面臨尖峰時段一位難求、離峰時段空位過多的問題。傳統的人力管理與感應線圈系統無法提供即時的車位資訊，導致洽公民眾耗費大量時間尋找車位，不僅降低了服務滿意度，也造成周邊交通的額外負擔。</p>
+                    </section>
+                    
+                    <section class="content-section">
+                        <h2>解決方案</h2>
+                        <p>透過本平台的媒合，新創 A 公司為市府大樓停車場導入了其創新的 AI 影像辨識解決方案。該方案包含以下核心技術：</p>
+                        <ul>
+                            <li><strong>高解析度攝影機：</strong> 在停車場出入口及各車道安裝攝影機，取代傳統感應器。</li>
+                            <li><strong>AI 車位辨識模型：</strong> 透過深度學習模型，系統能 24 小時即時辨識每個車位的佔用狀態，準確率高達 99%。</li>
+                            <li><strong>數據可視化儀表板：</strong> 提供管理者一個即時儀表板，顯示車位使用率、周轉率、尖離峰時段分析等數據。</li>
+                            <li><strong>市民引導 App：</strong> 結合停車場數據，提供市民一個手機 App，能即時查詢剩餘車位，並導航至空位最多的區域。</li>
+                        </ul>
+                    </section>
+
+                    <section class="content-section">
+                        <h2>實證成果</h2>
+                        <p>經過為期半年的場域實證，此解決方案取得了顯著的成效，成功驗證了其商業價值與社會效益。</p>
+                        <div class="results-grid">
+                            <div class="result-item">
+                                <i class="fa-solid fa-clock"></i>
+                                <span class="result-value">-30%</span>
+                                <span class="result-label">平均尋找車位時間</span>
+                            </div>
+                            <div class="result-item">
+                                <i class="fa-solid fa-chart-pie"></i>
+                                <span class="result-value">+15%</span>
+                                <span class="result-label">停車場使用率</span>
+                            </div>
+                            <div class="result-item">
+                                <i class="fa-solid fa-arrow-rotate-right"></i>
+                                <span class="result-value">+25%</span>
+                                <span class="result-label">車位周轉率</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="content-section">
+                        <h2>合作夥伴感言</h2>
+                        <div class="testimonial-box">
+                            <blockquote>「透過與新創 A 公司的合作，我們不僅解決了長久以來的停車管理問題，更看到了數據驅動決策的巨大潛力。這個平台是連結公部門需求與新創技術的最佳橋樑。」</blockquote>
+                            <cite>張先生</cite>
+                            <span class="cite-title">市府秘書處 處長</span>
+                        </div>
+                         <div class="testimonial-box">
+                            <blockquote>「政府提供的真實場域，是我們產品驗證和優化的關鍵。這次合作讓我們獲得了寶貴的數據和使用者回饋，加速了我們的商業化進程。」</blockquote>
+                            <cite>林小姐</cite>
+                            <span class="cite-title">新創 A 公司 創辦人</span>
+                        </div>
+                    </section>
+                </article>
+
+                <!-- 右側側邊欄 -->
+                <aside class="sidebar">
+                    <div class="sidebar-box project-overview-box">
+                        <h3><i class="fa-solid fa-folder-open"></i> 專案總覽</h3>
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <div><span class="info-label">新創團隊</span><span class="info-value">新創 A 公司</span></div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-building-user"></i>
+                                <div><span class="info-label">出題機關</span><span class="info-value">市府秘書處</span></div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-microchip"></i>
+                                <div><span class="info-label">核心技術</span><span class="info-value">AI 影像辨識、數據分析</span></div>
+                            </li>
+                             <li>
+                                <i class="fa-solid fa-calendar-check"></i>
+                                <div><span class="info-label">實證期間</span><span class="info-value">2023.03 - 2023.09</span></div>
+                            </li>
+                             <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <div><span class="info-label">專案狀態</span><span class="info-value">已完成，進入商業化洽談</span></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-box cta-box">
+                        <h3>對智慧城市主題感興趣嗎？</h3>
+                        <p>探索更多相關的挑戰，找到您發揮創意的舞台。</p>
+                        <br>
+                        <a href="#" class="btn">探索更多智慧城市挑戰</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container" style="justify-content: center; text-align: center;">
+            <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

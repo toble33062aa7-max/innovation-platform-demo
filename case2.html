@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成功案例：新創 B 儲能系統獲台電採用 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        a { text-decoration: none; color: var(--primary-color); }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { color: var(--text-color); font-weight: 500; }
+
+        /* --- 案例主視覺區塊 --- */
+        .story-hero {
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1624397640148-94b8e8ea2877?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+        }
+        .story-hero-content { max-width: 800px; }
+        .story-hero .category-tag { background-color: rgba(255,255,255,0.2); border: 1px solid #fff; padding: 6px 14px; }
+        .story-hero h1 { font-size: 2.8rem; margin-top: 16px; text-shadow: 2px 2px 6px rgba(0,0,0,0.5); }
+
+        /* --- 主內容區 --- */
+        main { padding: 48px 0; }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-light); margin-bottom: 32px; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .story-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+        }
+        
+        .story-content h2 { font-size: 1.8rem; color: var(--primary-color); margin: 40px 0 16px; }
+        .story-content p { margin-bottom: 16px; }
+        .story-content ul { list-style: none; padding-left: 0; }
+        .story-content ul li { position: relative; padding-left: 28px; margin-bottom: 12px; }
+        .story-content ul li::before {
+            content: '\f00c'; /* FontAwesome check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--secondary-color);
+            position: absolute;
+            left: 0;
+            top: 4px;
+        }
+
+        /* 引用/引言區塊 */
+        .testimonial-quote {
+            margin: 32px 0;
+            padding: 24px;
+            background-color: var(--background-color);
+            border-left: 5px solid var(--primary-color);
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+        .testimonial-quote footer {
+            margin-top: 12px;
+            font-style: normal;
+            font-weight: bold;
+            text-align: right;
+            color: var(--text-color);
+        }
+
+        /* 成果數據 */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 24px;
+        }
+        .result-item {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .result-value { font-size: 2.2rem; font-weight: 700; color: var(--secondary-color); }
+        .result-label { font-size: 0.9rem; color: var(--text-light); }
+
+        /* 右側側邊欄 */
+        .sidebar { position: sticky; top: 100px; }
+        .key-info-box {
+            background: #fff; padding: 24px; border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        .key-info-box h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); }
+        .key-info-box ul li { display: flex; align-items: flex-start; margin-bottom: 16px; font-size: 1rem; }
+        .key-info-box ul i { color: var(--secondary-color); margin-right: 12px; width: 20px; text-align: center; margin-top: 4px; }
+        .key-info-box .info-label { display: block; font-weight: 700; color: var(--text-color); }
+        .key-info-box .info-value { color: var(--text-light); }
+
+        /* 頁腳 */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .social-links a { color: #fff; font-size: 1.5rem; margin-left: 16px; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .story-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-top: 40px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .story-hero { height: 300px; }
+            .story-hero h1 { font-size: 2rem; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav><ul class="nav-links"><li><a href="#">尋找挑戰</a></li><li><a href="#">成功案例</a></li></ul></nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="story-hero">
+            <div class="story-hero-content">
+                <span class="category-tag">淨零轉型</span>
+                <h1>結合物聯網與區塊鏈，新創 B 公司開發之儲能系統獲台電採用</h1>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="#">首頁</a> &gt; <a href="#">成功案例</a> &gt; <span>新創 B 儲能系統</span>
+            </div>
+
+            <div class="story-layout">
+                <!-- 左側故事內容 -->
+                <article class="story-content">
+                    <h2>挑戰背景：再生能源併網下的電網穩定性課題</h2>
+                    <p>隨著台灣再生能源（如太陽能、風電）佔比逐年提高，其間歇性發電的特性對傳統電網的穩定性帶來了巨大挑戰。電力供需的瞬間失衡可能導致電壓不穩，甚至引發大規模停電風險。台灣電力公司急需一套能快速反應、智慧調度的儲能解決方案，以作為電網的「穩定器」。</p>
+
+                    <h2>解決方案：IoT 與區塊鏈的智慧融合</h2>
+                    <p>新創 B 公司透過本平台的媒合，向台電提出了其創新的「分散式智慧儲能系統」。此系統的核心特色在於：</p>
+                    <ul>
+                        <li><strong>物聯網 (IoT) 監控：</strong> 在各個儲能案場部署感測器，即時回傳電池狀態、充放電數據，實現雲端集中監控與預測性維護。</li>
+                        <li><strong>區塊鏈 (Blockchain) 技術：</strong> 將每一次的充放電、電力交易紀錄上記錄於不可篡改的區塊鏈上，確保數據的透明度與安全性，為未來的「電力交易自由化」奠定基礎。</li>
+                        <li><strong>AI 智慧調度演算法：</strong> 透過 AI 分析歷史用電數據與氣象預報，系統能預測電網負載，自動執行最佳的充放電策略，在電價低時儲能、電價高或電網不穩時釋放電力。</li>
+                    </ul>
+
+                    <blockquote class="testimonial-quote">
+                        <p>「透過這個平台，我們不僅找到了實證場域，更重要的是獲得了台電的專家指導，讓我們的技術能真正對接產業的痛點。這加速了我們產品至少一年以上的商業化進程。」</p>
+                        <footer>— 新創 B 公司 執行長</footer>
+                    </blockquote>
+
+                    <h2>實證成果與影響</h2>
+                    <p>在為期一年的場域實證中，新創 B 公司的系統於台電指定的變電所成功部署，並達成多項關鍵指標。這次合作不僅驗證了新創技術的可行性，更為台灣的能源轉型提供了一個重要的成功範例。</p>
+
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-value">15%</div>
+                            <div class="result-label">提升電網頻率穩定度</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-value">20%</div>
+                            <div class="result-label">降低尖峰負載成本</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-value">&lt;200ms</div>
+                            <div class="result-label">達成快速反應調度時間</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 右側關鍵資訊 -->
+                <aside class="sidebar">
+                    <div class="key-info-box">
+                        <h3><i class="fa-solid fa-file-invoice"></i> 專案檔案</h3>
+                        <ul>
+                            <li>
+                                <i class="fa-solid fa-building-user"></i>
+                                <div>
+                                    <span class="info-label">出題機關</span>
+                                    <span class="info-value">台灣電力公司</span>
+                                </div>
+                            </li>
+                             <li>
+                                <i class="fa-solid fa-microchip"></i>
+                                <div>
+                                    <span class="info-label">解題新創</span>
+                                    <span class="info-value">新創 B 股份有限公司</span>
+                                </div>
+                            </li>
+                             <li>
+                                <i class="fa-solid fa-calendar-check"></i>
+                                <div>
+                                    <span class="info-label">實證期間</span>
+                                    <span class="info-value">2022 年 6 月 - 2023 年 5 月</span>
+                                </div>
+                            </li>
+                             <li>
+                                <i class="fa-solid fa-tags"></i>
+                                <div>
+                                    <span class="info-label">核心技術</span>
+                                    <span class="info-value">物聯網、區塊鏈、AI 演算法、儲能系統</span>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-trophy"></i>
+                                <div>
+                                    <span class="info-label">專案狀態</span>
+                                    <span class="info-value">實證成功，已進入後續商業採購階段</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

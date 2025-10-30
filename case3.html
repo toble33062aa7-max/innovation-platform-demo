@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成功案例：故宮博物院 AR 國寶導覽 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .btn { display: inline-block; padding: 12px 24px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease; }
+        .btn:hover { background-color: #0a4a50; }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- 案例主視覺橫幅 --- */
+        .story-hero {
+            position: relative;
+            height: 45vh;
+            background: url('https://images.unsplash.com/photo-1558694464-51a86e108112?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+        }
+        .story-hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3));
+        }
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+        }
+        .hero-content .category-tag {
+            background-color: rgba(255,255,255,0.2);
+            border: 1px solid #fff;
+            margin-bottom: 16px;
+        }
+        .hero-content h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+        }
+
+        /* --- 案例內文 --- */
+        .story-main {
+            padding: 64px 0;
+        }
+        .story-content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 案例資訊摘要 */
+        .story-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            padding: 24px;
+            background-color: var(--background-color);
+            border-radius: 12px;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+        .meta-item {
+            color: var(--text-light);
+        }
+        .meta-item i {
+            color: var(--secondary-color);
+            margin-right: 8px;
+        }
+        .meta-item strong {
+            display: block;
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        
+        /* 內文段落 */
+        .story-body h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-top: 48px;
+            margin-bottom: 16px;
+        }
+        .story-body p {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+        }
+        
+        /* 引言區塊 */
+        .quote-block {
+            margin: 48px 0;
+            padding: 24px 32px;
+            background-color: #eef7f7; /* a light shade of primary color */
+            border-left: 5px solid var(--primary-color);
+        }
+        .quote-block p {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin: 0;
+        }
+        .quote-block cite {
+            display: block;
+            text-align: right;
+            margin-top: 16px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        /* 圖片展示 */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .image-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+
+        /* 行動呼籲 */
+        .cta-section {
+            margin-top: 64px;
+            padding: 48px 24px;
+            text-align: center;
+            background-color: var(--background-color);
+            border-radius: 12px;
+        }
+        .cta-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-content h1 { font-size: 2rem; }
+            .story-meta { flex-direction: column; align-items: flex-start; text-align: left; }
+            .image-gallery { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 主視覺橫幅 -->
+        <section class="story-hero">
+            <div class="hero-content">
+                <span class="category-tag">數位策展</span>
+                <h1>故宮博物院攜手新創 C 公司<br>打造沉浸式 AR 國寶導覽體驗</h1>
+            </div>
+        </section>
+
+        <!-- 案例內文 -->
+        <article class="story-main">
+            <div class="container">
+                <div class="story-content-wrapper">
+                    <!-- 資訊摘要 -->
+                    <div class="story-meta">
+                        <div class="meta-item">
+                            <i class="fa-solid fa-building-user"></i> 出題機關 <strong>國立故宮博物院</strong>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-microchip"></i> 解題新創 <strong>維度創造 (新創 C 公司)</strong>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-calendar-alt"></i> 合作期間 <strong>2023 年 4 月 - 10 月</strong>
+                        </div>
+                    </div>
+                    
+                    <!-- 內文 -->
+                    <div class="story-body">
+                        <h2><i class="fa-solid fa-bullseye"></i> 挑戰：如何讓國寶「活」起來？</h2>
+                        <p>國立故宮博物院擁有世界級的華夏文物典藏，但傳統的文字圖說與語音導覽方式，對於習慣數位互動的年輕世代而言，吸引力有限。如何打破玻璃展櫃的隔閡，讓訪客能以更直觀、更有趣的方式理解文物背後的故事與工藝細節，是故宮在推動數位轉型上面臨的一大挑戰。</p>
+
+                        <h2><i class="fa-solid fa-lightbulb"></i> 解方：AR App「古今鏡」的誕生</h2>
+                        <p>專注於 AR/VR 內容開發的「維度創造」團隊，透過本平台的媒合，向故宮提出了「古今鏡」AR 導覽 App 的解決方案。訪客只需用手機或平板掃描指定的文物，就能觸發多樣的互動體驗：</p>
+                        <ul>
+                            <li><strong>3D 模型互動：</strong> 將翠玉白菜、肉形石等知名文物 360 度旋轉縮放，觀看平時無法見到的細節。</li>
+                            <li><strong>歷史場景重現：</strong> 透過 AR 特效，重現清明上河圖中的人物活動，讓畫作動起來。</li>
+                            <li><strong>修復過程模擬：</strong> 以動畫展示破損古籍或瓷器的虛擬修復過程，傳遞文物保存的知識。</li>
+                        </ul>
+                        
+                        <div class="image-gallery">
+                            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=600&q=80" alt="AR App Interface">
+                            <img src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=600&q=80" alt="3D Model Interaction">
+                        </div>
+
+                        <div class="quote-block">
+                            <p>「這次與『維度創造』的合作，完美地將科技與人文結合。我們看到了年輕訪客臉上驚喜的表情，這就是我們推動場域實證最大的回報。這個平台確實為我們找到了對的夥伴！」</p>
+                            <cite>— 故宮博物院 數位資訊室 林主任</cite>
+                        </div>
+
+                        <h2><i class="fa-solid fa-chart-line"></i> 成果：創造雙贏的數位價值</h2>
+                        <p>在為期半年的實證計畫中，「古今鏡」App 不僅成功上線，更帶來了亮眼的成果：</p>
+                        <ul>
+                            <li><strong>訪客體驗提升：</strong> 使用 App 的訪客滿意度較傳統導覽提升了 40%。</li>
+                            <li><strong>停留時間增加：</strong> 訪客在展廳的平均停留時間增加了 25 分鐘。</li>
+                            <li><strong>新創商機拓展：</strong> 維度創造團隊憑藉此成功案例，已接到國內外數個博物館與美術館的合作邀約，成功將技術落地為商業模式。</li>
+                        </ul>
+                    </div>
+
+                    <!-- 行動呼籲 -->
+                    <section class="cta-section">
+                        <h3>您的創新方案，也能找到實證舞台</h3>
+                        <p>準備好將您的技術應用在真實場域了嗎？</p>
+                        <a href="#" class="btn">立即探索更多挑戰</a>
+                    </section>
+                </div>
+            </div>
+        </article>
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <!-- 可以添加社交連結等 -->
+        </div>
+    </footer>
+
+</body>
+</html>
