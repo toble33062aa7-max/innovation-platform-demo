@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>線上意見提交表單 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+            --input-focus-color: #2e8b57;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.7; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        h1, h2, h3 { color: var(--primary-color); }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+        .navbar .container { max-width:1200px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        
+        /* --- 主內容區 --- */
+        main { padding: 48px 0; }
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        .form-header { text-align: center; margin-bottom: 32px; }
+        .form-header h1 { font-size: 2.2rem; }
+        .form-header p { font-size: 1rem; color: var(--text-light); margin-top: 8px; }
+
+        /* 表單樣式 */
+        .feedback-form fieldset {
+            border: none;
+            padding: 0;
+            margin-bottom: 32px;
+        }
+        .feedback-form legend {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--secondary-color);
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-group .required-star {
+            color: #d9534f;
+            margin-left: 4px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--input-focus-color);
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+        }
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* 檔案上傳 */
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        .file-upload-btn {
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            background-color: white;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+        .file-upload-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        #file-upload-filename {
+            margin-top: 10px;
+            font-style: italic;
+            color: var(--text-light);
+        }
+
+        /* 表單底部 */
+        .form-footer {
+            margin-top: 32px;
+            text-align: center;
+        }
+        .privacy-notice {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+        .submit-btn {
+            padding: 14px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            background-color: var(--primary-color);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #0a4a50;
+            transform: translateY(-2px);
+        }
+
+        /* --- 頁腳 --- */
+        .footer { background-color: var(--background-color); border-top: 1px solid var(--border-color); color: var(--text-light); padding: 32px 0; margin-top: 48px; text-align: center; font-size: 0.9rem;}
+        
+        /* 響應式 */
+        @media (max-width: 768px) {
+            .form-container { padding: 24px; }
+            .form-header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>《遠距醫療照護資料交換標準》草案</h1>
+                    <p>感謝您撥冗提供寶貴意見，您的建議是政策優化的重要基石。</p>
+                </div>
+
+                <form action="#" method="POST" class="feedback-form" id="feedbackForm">
+                    <!-- 提交人資訊 -->
+                    <fieldset>
+                        <legend><i class="fa-solid fa-user"></i> 提交人資訊</legend>
+                        <div class="form-group">
+                            <label for="name">姓名 / 單位聯絡人<span class="required-star">*</span></label>
+                            <input type="text" id="name" name="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="organization">單位 / 公司名稱<span class="required-star">*</span></label>
+                            <input type="text" id="organization" name="organization" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">聯絡 Email<span class="required-star">*</span></label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="example@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="org_type">單位類型<span class="required-star">*</span></label>
+                            <select id="org_type" name="org_type" class="form-control" required>
+                                <option value="" disabled selected>請選擇...</option>
+                                <option value="startup">新創公司</option>
+                                <option value="academia">學術/研究機構</option>
+                                <option value="hospital">醫療院所</option>
+                                <option value="association">產業公協會</option>
+                                <option value="individual">個人</option>
+                            </select>
+                        </div>
+                    </fieldset>
+
+                    <!-- 意見詳情 -->
+                    <fieldset>
+                        <legend><i class="fa-solid fa-comment-dots"></i> 意見詳情</legend>
+                        <div class="form-group">
+                            <label for="suggestion_type">意見類型<span class="required-star">*</span></label>
+                            <select id="suggestion_type" name="suggestion_type" class="form-control" required>
+                                <option value="" disabled selected>請選擇...</option>
+                                <option value="general">整體性建議</option>
+                                <option value="clause_amendment">特定條文修正建議</option>
+                                <option value="new_addition">新增內容建議</option>
+                                <option value="typo">錯字或語意不清勘誤</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="related_clause">相關章節/頁碼（若適用）</label>
+                            <input type="text" id="related_clause" name="related_clause" class="form-control" placeholder="例如：第三章第二節 3.2.1 或 P.15">
+                        </div>
+                        <div class="form-group">
+                            <label for="suggestion_details">意見說明與建議內容<span class="required-star">*</span></label>
+                            <textarea id="suggestion_details" name="suggestion_details" class="form-control" placeholder="請詳述您目前的觀察、遇到的問題，以及具體的修正建議。" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="reasoning">理由與效益分析<span class="required-star">*</span></label>
+                            <textarea id="reasoning" name="reasoning" class="form-control" placeholder="請說明您提出此建議的理由，以及若採納後預期能帶來的效益（例如：降低開發成本、提升系統相容性、保障使用者隱私等）。" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="attachment">上傳附件（選填）</label>
+                            <div class="file-upload-wrapper">
+                                <button type="button" class="file-upload-btn"><i class="fa-solid fa-upload"></i> 選擇檔案</button>
+                                <input type="file" id="attachment" name="attachment">
+                            </div>
+                            <div id="file-upload-filename"></div>
+                            <small class="form-text text-muted">可上傳 PDF, Word, JPG, PNG 檔案，大小限制 5MB。</small>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-footer">
+                        <p class="privacy-notice">提交即表示您同意，您所提供的資訊（將對個人資料進行去識別化）可能被公開或納入政策制定之參考。我們將依據個人資料保護法保護您的隱私。</p>
+                        <button type="submit" class="submit-btn"><i class="fa-solid fa-paper-plane"></i> 確認送出</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            &copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 簡單的 JavaScript 顯示上傳的檔名
+        const fileInput = document.getElementById('attachment');
+        const filenameDisplay = document.getElementById('file-upload-filename');
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    filenameDisplay.textContent = '已選擇檔案：' + this.files[0].name;
+                } else {
+                    filenameDisplay.textContent = '';
+                }
+            });
+        }
+        
+        // 表單提交處理（此為範例，實際需後端邏輯）
+        const form = document.getElementById('feedbackForm');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // 防止表單直接提交
+                alert('意見已成功提交！感謝您的寶貴回饋。');
+                form.reset(); // 清空表單
+                filenameDisplay.textContent = ''; // 清空檔名顯示
+            });
+        }
+    </script>
+
+</body>
+</html>

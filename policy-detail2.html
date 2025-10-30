@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生成式 AI 倫理與治理框架研討會 - 報名頁</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 48px 0; }
+        h2 { font-size: 1.6rem; color: var(--primary-color); margin-bottom: 16px; border-bottom: 2px solid var(--secondary-color); padding-bottom: 8px; display: inline-block; }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+        
+        /* --- 頁面標題 --- */
+        .page-header { background-color: #fff; padding-bottom: 32px; }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px; }
+        .breadcrumb a { color: var(--primary-color); text-decoration: none; }
+        .page-header h1 { font-size: 2.5rem; color: var(--primary-color); }
+
+        /* --- 主內容兩欄式佈局 --- */
+        .event-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; }
+        .main-content { background: #fff; padding: 32px; border-radius: 8px; }
+        
+        /* 左側主內容 */
+        .event-section { margin-bottom: 40px; }
+        .event-section ul { list-style-type: none; padding-left: 0; }
+        .event-section li { margin-bottom: 12px; }
+        .agenda-list li { display: flex; margin-bottom: 16px; }
+        .agenda-time { font-weight: 700; color: var(--primary-color); min-width: 90px; }
+        .speaker-list { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .speaker-profile { display: flex; align-items: center; gap: 16px; }
+        .speaker-profile img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+        .speaker-info h4 { font-size: 1.1rem; }
+        .speaker-info p { font-size: 0.9rem; color: var(--text-light); line-height: 1.4; }
+
+        /* 右側側邊欄 */
+        .sidebar { position: sticky; top: 32px; }
+        .sidebar-card { background: #fff; padding: 24px; border-radius: 12px; box-shadow: var(--card-shadow); margin-bottom: 32px; }
+        .sidebar-card h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); }
+        .sidebar-card ul li { display: flex; margin-bottom: 16px; font-size: 1rem; list-style: none;}
+        .sidebar-card i { color: var(--secondary-color); margin-right: 12px; width: 20px; text-align: center; }
+        
+        /* 報名表單 */
+        .registration-form .form-group { margin-bottom: 16px; }
+        .registration-form label { display: block; font-weight: 500; margin-bottom: 6px; }
+        .registration-form input, 
+        .registration-form select, 
+        .registration-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        .registration-form textarea { resize: vertical; min-height: 100px; }
+        .btn-submit {
+            width: 100%; padding: 12px;
+            background-color: var(--secondary-color); color: #fff;
+            border: none; border-radius: 8px;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-submit:hover { background-color: #256d43; }
+        
+        /* 頁腳 */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; margin-top: 48px; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+
+        /* 響應式設計 */
+        @media (max-width: 992px) {
+            .event-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-top: 32px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1 { font-size: 2rem; }
+            .speaker-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav><ul class="nav-links"><li><a href="#">...</a></li></ul></nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#">首頁</a> &gt; <a href="#">政策參與</a> &gt; <span>生成式 AI 研討會</span>
+                </div>
+                <h1>生成式 AI 倫理與治理框架線上研討會</h1>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="event-layout">
+                <!-- 左側主內容 -->
+                <div class="main-content">
+                    <div class="event-section">
+                        <h2><i class="fa-solid fa-circle-info"></i> 關於此研討會</h2>
+                        <p>隨著生成式 AI 技術的飛速演進，其在各產業的應用潛力無窮，但也帶來了資料隱私、演算法偏見、智慧財產權歸屬等複雜的倫理與治理挑戰。為建立一個可信賴、負責任且有利於創新的 AI 生態環境，數位發展部特舉辦此線上研討會，廣邀產業先進，特別是第一線的 AI 新創團隊，共同擘劃台灣 AI 發展的未來藍圖。</p>
+                    </div>
+
+                    <div class="event-section">
+                        <h2><i class="fa-solid fa-comments"></i> 主要討論議題</h2>
+                        <ul>
+                            <li><strong>資料治理與隱私保護：</strong>如何在訓練 AI 模型時，確保使用者資料的合規與安全？</li>
+                            <li><strong>演算法的公平與透明：</strong>如何降低 AI 生成內容的偏見，並建立可解釋性框架？</li>
+                            <li><strong>智慧財產權的界定：</strong>AI 生成內容的著作權應如何歸屬與保護？</li>
+                            <li><strong>產業發展與法規平衡：</strong>如何制定既能鼓勵創新又能防範風險的監理政策？</li>
+                        </ul>
+                    </div>
+
+                    <div class="event-section">
+                        <h2><i class="fa-solid fa-list-ol"></i> 活動議程</h2>
+                        <ul class="agenda-list">
+                            <li><span class="agenda-time">14:00-14:10</span> <span>開幕致詞｜數位發展部</span></li>
+                            <li><span class="agenda-time">14:10-14:50</span> <span>專題演講：全球 AI 治理趨勢與挑戰</span></li>
+                            <li><span class="agenda-time">14:50-15:30</span> <span>圓桌論壇：新創視角的 AI 倫理實踐</span></li>
+                            <li><span class="agenda-time">15:30-16:00</span> <span>分組討論與 Q&A</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="event-section">
+                        <h2><i class="fa-solid fa-users-gear"></i> 與會講者</h2>
+                        <div class="speaker-list">
+                            <div class="speaker-profile">
+                                <img src="https://images.unsplash.com/photo-1580852300654-034f3c5b9ba0?auto=format&fit=crop&w=100&q=80" alt="Speaker 1">
+                                <div class="speaker-info">
+                                    <h4>林教授</h4>
+                                    <p>台灣大學資訊工程學系</p>
+                                </div>
+                            </div>
+                            <div class="speaker-profile">
+                                <img src="https://images.unsplash.com/photo-1627541593552-a54ebb4981c2?auto=format&fit=crop&w=100&q=80" alt="Speaker 2">
+                                <div class="speaker-info">
+                                    <h4>陳律師</h4>
+                                    <p>高科技法規法律事務所</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側側邊欄 -->
+                <aside class="sidebar">
+                    <div class="sidebar-card">
+                        <h3><i class="fa-solid fa-calendar-star"></i> 活動資訊</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-calendar-days"></i> <strong>日期：</strong>2025 年 1 月 15 日 (三)</li>
+                            <li><i class="fa-solid fa-clock"></i> <strong>時間：</strong>下午 14:00 - 16:00</li>
+                            <li><i class="fa-solid fa-laptop"></i> <strong>形式：</strong>線上會議 (Webex)</li>
+                            <li><i class="fa-solid fa-building"></i> <strong>主辦：</strong>數位發展部</li>
+                            <li><i class="fa-solid fa-users"></i> <strong>對象：</strong>AI 新創團隊、學研單位、法務專家</li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-card">
+                        <h3><i class="fa-solid fa-file-pen"></i> 立即報名</h3>
+                        <form action="#" method="POST" class="registration-form">
+                            <div class="form-group">
+                                <label for="name">姓名</label>
+                                <input type="text" id="name" name="name" required placeholder="請輸入您的姓名">
+                            </div>
+                            <div class="form-group">
+                                <label for="company">公司 / 組織</label>
+                                <input type="text" id="company" name="company" required placeholder="請輸入您的單位名稱">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">電子郵件</label>
+                                <input type="email" id="email" name="email" required placeholder="會議連結將寄至此信箱">
+                            </div>
+                            <div class="form-group">
+                                <label for="interest">您關注的領域</label>
+                                <select id="interest" name="interest">
+                                    <option value="tech">技術與研發</option>
+                                    <option value="legal">法規與合規</option>
+                                    <option value="business">商業應用</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="question">您最想提出的問題（選填）</label>
+                                <textarea id="question" name="question" placeholder="您的提問有機會在會中被討論"></textarea>
+                            </div>
+                            <button type="submit" class="btn-submit">提交報名</button>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

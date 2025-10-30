@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>《無人機物流應用管理辦法》草案 - 政策參與</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding-top: 48px; padding-bottom: 48px; }
+        .btn { display: inline-block; padding: 12px 24px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease; border: none; cursor: pointer; }
+        .btn:hover { background-color: #0a4a50; }
+        .btn-secondary { background-color: #6c757d; }
+        .btn-secondary:hover { background-color: #5a6268; }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+
+        /* --- 頁面標題與麵包屑 --- */
+        .page-header { background-color: #fff; padding-bottom: 32px; }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-light); margin-bottom: 16px; }
+        .breadcrumb a { color: var(--primary-color); text-decoration: none; }
+        .page-header h1 { font-size: 2.5rem; color: var(--primary-color); font-weight: 700; margin-bottom: 16px; }
+        .last-updated { font-size: 0.9rem; color: var(--text-light); }
+
+        /* --- 兩欄式佈局 --- */
+        .main-layout { display: grid; grid-template-columns: 2.5fr 1fr; gap: 48px; }
+        
+        /* 左側主內容區 */
+        .content-area > div { background-color: #fff; padding: 32px; border-radius: 12px; box-shadow: var(--card-shadow); margin-bottom: 32px; }
+        .content-area h2 { font-size: 1.6rem; color: var(--primary-color); margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--secondary-color); display: inline-block; }
+        
+        /* 草案內容區 */
+        .draft-content article { margin-bottom: 24px; padding-left: 16px; border-left: 3px solid var(--border-color); }
+        .draft-content h4 { font-weight: 700; color: #333; }
+        .draft-content p { color: var(--text-light); }
+        .download-bar { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color); }
+
+        /* 意見提交表單 */
+        .feedback-form .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label { margin-bottom: 8px; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; font-family: inherit;
+        }
+        .form-group textarea { resize: vertical; min-height: 150px; }
+        .form-actions { margin-top: 24px; text-align: right; }
+
+        /* 右側側邊欄 */
+        .sidebar { position: sticky; top: 100px; }
+        .sidebar-box { background-color: #fff; padding: 24px; border-radius: 12px; box-shadow: var(--card-shadow); margin-bottom: 32px; }
+        .sidebar-box h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); }
+        .info-list li { display: flex; margin-bottom: 16px; font-size: 1rem; align-items: start;}
+        .info-list i { color: var(--secondary-color); margin-right: 12px; width: 20px; text-align: center; margin-top: 4px; }
+        .info-list .info-label { font-weight: 700; }
+        .info-list .status-tag { background-color: #ffc107; color: #333; padding: 2px 8px; border-radius: 4px; font-size: 0.9rem; }
+        .process-timeline .timeline-item { position: relative; padding-left: 30px; padding-bottom: 24px; border-left: 2px solid var(--border-color); }
+        .process-timeline .timeline-item:last-child { border-left: none; }
+        .process-timeline .timeline-item::before { content: ''; position: absolute; left: -9px; top: 5px; width: 16px; height: 16px; border-radius: 50%; background-color: var(--border-color); }
+        .process-timeline .timeline-item.active::before { background-color: var(--secondary-color); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--secondary-color); }
+        .process-timeline h4 { font-size: 1rem; }
+        .process-timeline p { font-size: 0.9rem; color: var(--text-light); margin: 0; }
+
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; margin-top: 32px; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1 { font-size: 2rem; }
+            .feedback-form .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#">首頁</a> &gt; <a href="#">政策參與</a> &gt; <span>無人機物流管理辦法</span>
+                </div>
+                <h1>《無人機物流應用管理辦法》草案</h1>
+                <p class="last-updated">最後更新：2023年10月26日</p>
+            </div>
+        </div>
+        
+        <section>
+            <div class="container">
+                <div class="main-layout">
+                    <!-- 左側主內容區 -->
+                    <div class="content-area">
+                        <!-- 立法說明 -->
+                        <div class="legislative-summary">
+                            <h2><i class="fa-solid fa-file-lines"></i> 背景摘要與立法說明</h2>
+                            <p>為因應全球電子商務蓬勃發展，解決「最後一哩路」的物流挑戰，並促進我國無人機產業創新應用，交通部特研擬本辦法草案。草案旨在建立一套完整、安全的無人機物流營運框架，內容涵蓋營運人資格、設備規格、航線申請、安全規範及保險機制等，期望在保障公共安全的基礎上，為新興商業模式提供明確的法規指引。</p>
+                        </div>
+
+                        <!-- 草案條文 -->
+                        <div class="draft-viewer">
+                            <h2><i class="fa-solid fa-book-open"></i> 草案條文（節錄）</h2>
+                            <div class="draft-content">
+                                <article>
+                                    <h4>第一條（立法目的）</h4>
+                                    <p>為管理與輔導無人機物流應用，促進相關產業發展，並維護空域及公共安全，特訂定本辦法。</p>
+                                </article>
+                                <article>
+                                    <h4>第二條（名詞定義）</h4>
+                                    <p>本辦法所稱無人機物流，係指利用遙控無人機進行貨物、郵件等物品之運輸作業。營運人係指經主管機關核准，從事無人機物流服務之法人。</p>
+                                </article>
+                                <article>
+                                    <h4>第五條（申請資格）</h4>
+                                    <p>申請為營運人者，應為實收資本額達新台幣一千萬元以上之本國公司，並應檢具營運計畫書、安全管理計畫及符合規定之責任保險證明，向主管機關提出申請。</p>
+                                </article>
+                                <article>
+                                    <h4>第八條（營運規範）</h4>
+                                    <p>營運人應於核定之航線與時間內進行飛航作業，不得於禁航區、限航區及人口稠密區域上空進行物流作業。所有飛航紀錄應至少保存二年備查。</p>
+                                </article>
+                            </div>
+                            <div class="download-bar">
+                                <a href="#" class="btn btn-secondary"><i class="fa-solid fa-file-pdf"></i> 下載草案完整 PDF</a>
+                            </div>
+                        </div>
+
+                        <!-- 意見提交表單 -->
+                        <div class="feedback-form">
+                            <h2><i class="fa-solid fa-pen-to-square"></i> 提供您的寶貴意見</h2>
+                            <form action="#">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="name">姓名 / 單位名稱</label>
+                                        <input type="text" id="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">聯絡信箱</label>
+                                        <input type="email" id="email" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="feedback-type">意見類型</label>
+                                        <select id="feedback-type">
+                                            <option>技術可行性</option>
+                                            <option>法規適用性</option>
+                                            <option>市場衝擊評估</option>
+                                            <option>文字修正建議</option>
+                                            <option>其他</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="target-article">針對條文（選填）</label>
+                                        <input type="text" id="target-article" placeholder="例如：第五條、第八條">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="comment">意見說明</label>
+                                        <textarea id="comment" required></textarea>
+                                    </div>
+                                     <div class="form-group full-width">
+                                        <label for="attachment">附件上傳（選填）</label>
+                                        <input type="file" id="attachment">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn">提交意見</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 右側側邊欄 -->
+                    <aside class="sidebar">
+                        <div class="sidebar-box">
+                            <h3><i class="fa-solid fa-circle-info"></i> 案件資訊</h3>
+                            <ul class="info-list">
+                                <li><i class="fa-solid fa-building"></i> <div><span class="info-label">主管機關：</span><br>交通部</div></li>
+                                <li><i class="fa-solid fa-flag"></i> <div><span class="info-label">目前狀態：</span><br><span class="status-tag">意見徵詢中</span></div></li>
+                                <li><i class="fa-solid fa-calendar-days"></i> <div><span class="info-label">徵詢期間：</span><br>2024-10-26 至 2024-12-31</div></li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-box">
+                            <h3><i class="fa-solid fa-timeline"></i> 政策流程</h3>
+                            <div class="process-timeline">
+                                <div class="timeline-item active">
+                                    <h4>意見蒐集</h4>
+                                    <p>目前階段</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h4>草案修訂</h4>
+                                    <p>預計 2025 Q1</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h4>法規預告</h4>
+                                    <p>預計 2025 Q2</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h4>正式實施</h4>
+                                    <p>待定</p>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
