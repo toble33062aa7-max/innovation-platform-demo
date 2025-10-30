@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>政策參與 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 80px 0; }
+        .section-title { font-size: 2.2rem; text-align: center; margin-bottom: 48px; font-weight: 700; color: var(--primary-color); }
+        .btn { display: inline-block; padding: 10px 20px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease; }
+        .btn:hover { background-color: #0a4a50; }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+
+        /* --- 頁面標題區塊 --- */
+        .page-hero {
+            background-color: var(--background-color);
+            text-align: center;
+            padding: 60px 0;
+        }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px; }
+        .breadcrumb a { color: var(--primary-color); text-decoration: none; }
+        .page-hero h1 { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 16px; }
+        .page-hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto; color: var(--text-light); }
+
+        /* --- 參與方式區塊 --- */
+        .participation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            text-align: center;
+        }
+        .participation-card { padding: 32px; border: 1px solid var(--border-color); border-radius: 12px; transition: box-shadow 0.3s; }
+        .participation-card:hover { box-shadow: var(--card-shadow); }
+        .participation-card i { font-size: 3rem; color: var(--secondary-color); margin-bottom: 16px; }
+        .participation-card h3 { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 12px; }
+
+        /* --- 當前議題區塊 --- */
+        .consultation-section { background-color: var(--background-color); }
+        .consultation-list { display: flex; flex-direction: column; gap: 24px; }
+        .consultation-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .consultation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        .card-header h3 { font-size: 1.4rem; color: var(--primary-color); }
+        .card-meta { display: flex; gap: 24px; color: var(--text-light); font-size: 0.9rem; flex-wrap: wrap; }
+        .card-meta span { display: flex; align-items: center; }
+        .card-meta i { margin-right: 8px; color: var(--secondary-color); }
+        .card-body p { margin-bottom: 0; }
+        .card-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); }
+
+        /* --- 過往影響力區塊 --- */
+        .impact-box {
+            background: #fff;
+            border-left: 5px solid var(--secondary-color);
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .impact-box h3 { font-size: 1.4rem; margin-bottom: 16px; color: var(--primary-color); }
+
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 768px) {
+            section { padding: 60px 0; }
+            .nav-links { display: none; }
+            .page-hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 頁面標題區塊 -->
+        <section class="page-hero">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#">首頁</a> &gt; <span>政策參與</span>
+                </div>
+                <h1>共創未來政策</h1>
+                <p>您的創新洞見，是推動產業法規與時俱進的關鍵力量。我們提供直接管道，讓新創的聲音被聽見，共同塑造更友善的創新生態系。</p>
+            </div>
+        </section>
+
+        <!-- 參與方式區塊 -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">您的聲音，如何發揮影響力？</h2>
+                <div class="participation-grid">
+                    <div class="participation-card">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <h3>回應法規草案</h3>
+                        <p>針對特定產業的法規草案，提供第一線的實務經驗與技術觀點，確保法規符合市場需求。</p>
+                    </div>
+                    <div class="participation-card">
+                        <i class="fa-solid fa-users"></i>
+                        <h3>加入焦點小組</h3>
+                        <p>受邀參與特定新興議題的閉門會議，與政策制定者深度對話，共同探討未來發展方向。</p>
+                    </div>
+                    <div class="participation-card">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <h3>主動議題倡議</h3>
+                        <p>若您發現現行法規阻礙創新，可透過本平台提交政策白皮書或建議，發起改革討論。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 當前議題區塊 -->
+        <section class="consultation-section">
+            <div class="container">
+                <h2 class="section-title">當前開放諮詢議題</h2>
+                <div class="consultation-list">
+                    <!-- 議題卡片 1 -->
+                    <article class="consultation-card">
+                        <div class="card-header">
+                            <h3>《無人機物流應用管理辦法》草案公眾諮詢</h3>
+                            <div class="card-meta">
+                                <span><i class="fa-solid fa-building"></i> 主管機關：交通部</span>
+                                <span><i class="fa-solid fa-calendar-check"></i> 意見徵詢截止：2024-12-31</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>為促進無人機在商業物流領域的應用，並兼顧公共安全，交通部擬定此管理辦法草案，現正徵求各界意見，特別歡迎具備無人機技術、物流營運經驗之新創團隊提供建議。</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn">查看草案並提供意見</a>
+                        </div>
+                    </article>
+
+                    <!-- 議題卡片 2 -->
+                    <article class="consultation-card">
+                        <div class="card-header">
+                            <h3>生成式 AI 倫理與治理框架研討</h3>
+                            <div class="card-meta">
+                                <span><i class="fa-solid fa-building"></i> 主管機關：數位發展部</span>
+                                <span><i class="fa-solid fa-calendar-check"></i> 意見徵詢截止：2025-01-15</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>面對生成式 AI 技術的快速發展，為建立可信賴的 AI 生態環境，數位發展部邀請 AI 新創、學術界及公民團體，共同探討資料隱私、演算法偏見及智慧財產權等治理議題。</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn">參與線上研討會</a>
+                        </div>
+                    </article>
+                    
+                    <!-- 議題卡片 3 -->
+                    <article class="consultation-card">
+                        <div class="card-header">
+                            <h3>《遠距醫療照護資料交換標準》意見徵求</h3>
+                            <div class="card-meta">
+                                <span><i class="fa-solid fa-building"></i> 主管機關：衛生福利部</span>
+                                <span><i class="fa-solid fa-calendar-check"></i> 意見徵詢截止：2024-11-30</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>為加速數位健康產業發展，衛福部正制定跨平台、跨院所的遠距醫療資料交換標準。誠摯邀請開發健康 App、穿戴式裝置及相關 SaaS 服務的業者提供專業意見。</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn">下載標準草案</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 過往影響力區塊 -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">過往影響力</h2>
+                <div class="impact-box">
+                    <h3>案例：金融科技（FinTech）監理沙盒機制</h3>
+                    <p>在「金融科技發展與創新實驗條例」立法過程中，本平台曾多次舉辦焦點小組會議，邀請多家金融科技新創分享其在產品開發中遇到的法規挑戰。這些來自第一線的寶貴意見，最終促使主管機關在條例中納入了更具彈性的實驗空間與出場機制，成功加速了台灣開放銀行的進程。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
