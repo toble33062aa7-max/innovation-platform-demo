@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商機媒合 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 80px 0; }
+        .section-title { font-size: 2.2rem; text-align: center; margin-bottom: 48px; font-weight: 700; color: var(--primary-color); }
+        .btn { display: inline-block; padding: 12px 24px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .btn:hover { background-color: #0a4a50; transform: translateY(-2px); }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none;}
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+        .nav-links a:hover { color: var(--primary-color); }
+        
+        /* --- 頁面標題區 --- */
+        .page-header {
+            background-color: var(--background-color);
+            padding: 60px 0;
+            text-align: center;
+        }
+        .page-header h1 { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 16px; }
+        .page-header p { font-size: 1.2rem; color: var(--text-light); max-width: 700px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-light); margin-bottom: 24px; }
+        .breadcrumb a { color: var(--primary-color); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* --- 說明區塊 --- */
+        .intro-section .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .intro-text h2 { font-size: 1.8rem; margin-bottom: 16px; color: var(--secondary-color); }
+        .intro-text p { margin-bottom: 16px; }
+        .intro-text ul { list-style: none; padding-left: 0; }
+        .intro-text ul li { display: flex; align-items: center; margin-bottom: 12px; font-weight: 500; }
+        .intro-text ul li i { color: var(--secondary-color); font-size: 1.2rem; margin-right: 12px; }
+        .intro-image img { max-width: 100%; border-radius: 12px; }
+
+        /* --- 媒合流程區塊 --- */
+        .process-section { background-color: var(--background-color); }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            text-align: center;
+        }
+        .step-item { position: relative; }
+        
+        /********** CSS 修正處 **********/
+        .step-item:not(:last-child)::after {
+            content: ''; 
+            position: absolute; 
+            top: 35px; /* 垂直置中於圖示 (70px / 2) */
+            left: 50%; /* 水平起點：從父元素的中心開始 */
+            width: 100%; /* 線條寬度：剛好等於父元素的寬度，使其能延伸到下一個元素的中心 */
+            border-top: 2px dashed var(--primary-color); 
+            opacity: 0.3;
+        }
+        /*****************************/
+
+        .step-icon {
+            width: 70px; height: 70px; background: var(--primary-color); color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; margin: 0 auto 16px;
+        }
+        .step-item h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--primary-color); }
+
+        /* --- 採購需求列表 --- */
+        .opportunities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+        .opportunity-card {
+            background-color: #fff; border-radius: 12px; box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .opportunity-card:hover { transform: translateY(-8px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); }
+        .card-content { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-header { margin-bottom: 16px; }
+        .card-header .agency { font-size: 0.9rem; color: var(--text-light); }
+        .card-header h3 { font-size: 1.4rem; color: var(--primary-color); }
+        .card-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: 0.9rem; }
+        .meta-item span { display: block; }
+        .meta-label { color: var(--text-light); margin-bottom: 4px; }
+        .meta-value { font-weight: 500; }
+        .card-footer { margin-top: 24px; }
+        
+        /* --- CTA 區塊 --- */
+        .cta-section { background-color: var(--primary-color); color: #fff; text-align: center; }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 16px; }
+        .cta-section p { margin-bottom: 24px; opacity: 0.9; }
+        .cta-section .btn { background-color: #fff; color: var(--primary-color); font-weight: 700; }
+        .cta-section .btn:hover { background-color: #f0f0f0; }
+        
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .social-links a { color: #fff; font-size: 1.5rem; margin-left: 16px; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .intro-section .container { grid-template-columns: 1fr; }
+            .intro-image { order: -1; margin-bottom: 32px; }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .step-item:nth-child(2)::after { border: none; }
+            .step-item:nth-child(4)::after { border: none; } /* Handle the new row end */
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1 { font-size: 2.2rem; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .step-item::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 頁面標題區 -->
+        <header class="page-header">
+            <div class="container">
+                <div class="breadcrumb"><a href="#">首頁</a> &gt; <span>商機媒合</span></div>
+                <h1>商機媒合</h1>
+                <p>將您的實證成果，轉化為實質的政府採購與商業合約。</p>
+            </div>
+        </header>
+
+        <!-- 服務說明區塊 -->
+        <section class="intro-section">
+            <div class="container">
+                <div class="intro-text">
+                    <h2>從概念驗證到市場擴展</h2>
+                    <p>成功的場域實證是您技術實力的最佳證明，但這僅僅是第一步。我們的商機媒合服務，旨在為您搭建橋樑，跨越從實證成功到獲得正式採購合約之間的鴻溝。</p>
+                    <ul>
+                        <li><i class="fa-solid fa-check-circle"></i> <b>擴大能見度：</b> 將您的解決方案推薦給更多有潛在需求的政府機關。</li>
+                        <li><i class="fa-solid fa-check-circle"></i> <b>降低溝通成本：</b> 由平台協助您進行初步的需求對接與方案介紹。</li>
+                        <li><i class="fa-solid fa-check-circle"></i> <b>加速採購流程：</b> 憑藉實證成果，提升政府單位的採購信心。</li>
+                    </ul>
+                </div>
+                <div class="intro-image">
+                    <img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&w=800&q=60" alt="Business Growth Chart">
+                </div>
+            </div>
+        </section>
+
+        <!-- 媒合流程區塊 -->
+        <section class="process-section">
+            <div class="container">
+                <h2 class="section-title">我們的媒合流程</h2>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-icon"><i class="fa-solid fa-file-circle-check"></i></div>
+                        <h3>成果登錄</h3>
+                        <p>提交您的場域實證成功報告與解決方案資料。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                        <h3>需求發掘</h3>
+                        <p>平台主動向各級機關探詢相關技術的採購需求。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"><i class="fa-solid fa-arrows-down-to-people"></i></div>
+                        <h3>精準推薦</h3>
+                        <p>將您的方案精準推薦給有需求的潛在採購單位。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-icon"><i class="fa-solid fa-file-signature"></i></div>
+                        <h3>洽談簽約</h3>
+                        <p>協助安排洽談會議，促進雙方達成採購合作。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 當前採購需求列表 -->
+        <section class="opportunities-section">
+            <div class="container">
+                <h2 class="section-title">當前採購需求</h2>
+                <div class="opportunities-grid">
+                    <!-- 需求卡片 1 -->
+                    <article class="opportunity-card">
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="agency">需求單位：某市環保局</span>
+                                <h3>智慧垃圾滿溢偵測系統</h3>
+                            </div>
+                            <p>徵求已驗證過的 IoT 解決方案，用於部署於市區內 500 個大型垃圾桶，以優化清運路線。</p>
+                            <div class="card-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">預算規模</span>
+                                    <span class="meta-value">約 300 萬</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">截止日期</span>
+                                    <span class="meta-value">2024/12/31</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn">表達意願</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 需求卡片 2 -->
+                    <article class="opportunity-card">
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="agency">需求單位：國家公園管理處</span>
+                                <h3>AI 遊客行為分析與人流預警</h3>
+                            </div>
+                            <p>尋求能透過現有監視器影像進行人流計數與熱點分析的 AI 軟體，以提升園區安全管理。</p>
+                            <div class="card-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">預算規模</span>
+                                    <span class="meta-value">約 150 萬</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">截止日期</span>
+                                    <span class="meta-value">2025/01/20</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn">表達意願</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 需求卡片 3 -->
+                    <article class="opportunity-card">
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="agency">需求單位：國立圖書館</span>
+                                <h3>個人化圖書推薦引擎</h3>
+                            </div>
+                            <p>希望導入已商業化的推薦演算法，整合至現有圖書館藏查詢系統，提升讀者借閱體驗。</p>
+                            <div class="card-meta">
+                                <div class="meta-item">
+                                    <span class="meta-label">預算規模</span>
+                                    <span class="meta-value">約 80 萬</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">截止日期</span>
+                                    <span class="meta-value">2024/11/30</span>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn">表達意願</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action 區塊 -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>準備好擴展您的業務了嗎？</h2>
+                <p>如果您的解決方案已完成場域實證並準備好進入市場，請立即與我們聯繫。</p>
+                <a href="#" class="btn">立即申請媒合</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
