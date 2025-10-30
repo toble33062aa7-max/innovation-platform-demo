@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>挑戰詳情：遠距醫療健康照護方案 - 場域實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 (與前頁相同) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63; /* 主色調 - 深青色 */
+            --secondary-color: #2e8b57; /* 輔助色 - 海綠色 */
+            --background-color: #f8f9fa; /* 背景色 */
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar {
+            background-color: #fff;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- 主要內容區域 --- */
+        main {
+            padding: 48px 0 64px;
+        }
+
+        /* 麵包屑導覽 */
+        .breadcrumbs {
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumbs span {
+            color: var(--text-light);
+            margin: 0 8px;
+        }
+
+        /* 挑戰詳情頁面布局 */
+        .challenge-detail-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        /* 左側主要內容 */
+        .challenge-content {
+            background-color: #fff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .challenge-content h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+        
+        .challenge-tags {
+            margin-bottom: 24px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            background-color: #eaf3f3;
+            color: var(--primary-color);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .content-section {
+            margin-bottom: 32px;
+        }
+        .content-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-section h2 {
+            font-size: 1.6rem;
+            color: var(--secondary-color);
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .content-section h2 i {
+            margin-right: 12px;
+        }
+
+        .content-section p, .content-section ul {
+            color: var(--text-light);
+        }
+        
+        .content-section ul {
+            list-style-position: inside;
+            padding-left: 8px;
+        }
+        .content-section li {
+            margin-bottom: 8px;
+        }
+        
+        /* 右側資訊欄 */
+        .challenge-sidebar {
+            position: sticky;
+            top: 100px; /* 考慮到 navbar 的高度 */
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .sidebar-content {
+            padding: 24px;
+        }
+
+        .info-block {
+            margin-bottom: 20px;
+        }
+        .info-block:last-child {
+            margin-bottom: 0;
+        }
+        .info-label {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 6px;
+        }
+        .info-label i {
+            margin-right: 8px;
+            color: var(--secondary-color);
+            width: 20px;
+            text-align: center;
+        }
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-light);
+            padding-left: 28px;
+        }
+        .info-value.highlight {
+            font-weight: 700;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+        
+        .resources-list {
+            list-style: none;
+            padding-left: 28px;
+        }
+        .resources-list li {
+            margin-bottom: 6px;
+            color: var(--text-light);
+        }
+        .resources-list li i {
+            color: #28a745;
+            margin-right: 6px;
+        }
+
+        .btn-propose {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 24px;
+        }
+        .btn-propose:hover {
+            background-color: #216e45; /* 加深的 secondary-color */
+            transform: translateY(-2px);
+        }
+
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer {
+            background-color: #212529;
+            color: #ccc;
+            padding: 48px 0;
+            font-size: 0.9rem;
+        }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .social-links a { color: #fff; font-size: 1.5rem; margin-left: 16px; transition: color 0.3s ease; }
+        .social-links a:hover { color: var(--secondary-color); }
+        
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .challenge-detail-layout {
+                grid-template-columns: 1fr;
+            }
+            .challenge-sidebar {
+                margin-top: 32px;
+                position: static;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .challenge-content h1 { font-size: 2rem; }
+            .challenge-content { padding: 24px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="challenges.html">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主要內容 -->
+    <main>
+        <div class="container">
+            <!-- 麵包屑 -->
+            <div class="breadcrumbs">
+                <a href="index.html">首頁</a>
+                <span>&gt;</span>
+                <a href="challenges.html">尋找挑戰</a>
+                <span>&gt;</span>
+                遠距醫療健康照護方案
+            </div>
+
+            <div class="challenge-detail-layout">
+                <!-- 左側：挑戰詳細內容 -->
+                <article class="challenge-content">
+                    <div class="challenge-tags">
+                        <span class="tag">醫療健康</span>
+                        <span class="tag">IoT</span>
+                        <span class="tag">高齡照護</span>
+                        <span class="tag">數位轉型</span>
+                    </div>
+                    <h1>遠距醫療健康照護方案</h1>
+
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-bullseye"></i> 挑戰背景</h2>
+                        <p>隨著台灣邁入超高齡社會，偏鄉地區與行動不便長者的醫療照護需求日益迫切。傳統醫療模式受限於地理距離與交通不便，難以提供即時且持續性的健康管理。本挑戰旨在利用資通訊技術 (ICT)，開發創新的遠距醫療與健康照護解決方案，打破時空限制，提升長者健康福祉與生活品質。</p>
+                    </section>
+                    
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-tasks"></i> 主要目標</h2>
+                        <ul>
+                            <li>開發一套整合生理數據監測、線上視訊問診、用藥提醒及緊急通報功能的平台。</li>
+                            <li>設計友善易用的使用者介面(UI/UX)，讓不熟悉科技產品的長者也能輕鬆操作。</li>
+                            <li>建立可持續的服務模式，串連在地社區衛生所、照護機構與家屬，形成完整的照護網絡。</li>
+                            <li>在指定實證場域進行為期半年的驗證，收集真實數據以評估方案成效與使用者回饋。</li>
+                        </ul>
+                    </section>
+
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-cogs"></i> 技術與功能需求</h2>
+                        <ul>
+                            <li><strong>生理數據監測：</strong>需能整合市面上常見的智慧穿戴裝置或藍牙醫療設備 (如血壓計、血糖機、血氧儀)，自動上傳數據至雲端平台。</li>
+                            <li><strong>視訊診療功能：</strong>提供穩定、高畫質且符合資訊安全規範的視訊通話功能，供醫師與個案進行遠距問診。</li>
+                            <li><strong>個人化健康管理：</strong>系統能根據個案數據設定警示值，並提供個人化的健康衛教資訊。</li>
+                            <li><strong>多方溝通管道：</strong>平台應支援個案、家屬、醫師、個管師等多方角色的溝通與資訊共享。</li>
+                            <li><strong>數據分析與視覺化：</strong>將收集到的數據以圖表呈現，輔助醫療人員判斷個案健康趨勢。</li>
+                        </ul>
+                    </section>
+                    
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-award"></i> 評選標準</h2>
+                        <ul>
+                            <li><strong>技術創新性 (30%):</strong> 解決方案的技術架構、穩定性與擴充性。</li>
+                            <li><strong>使用者體驗 (25%):</strong> 介面設計的直覺性、易用性，以及對長者需求的體貼程度。</li>
+                            <li><strong>場域契合度 (20%):</strong> 方案是否能有效解決實證場域面臨的實際問題。</li>
+                            <li><strong>商業潛力 (15%):</strong> 營運模式的可持續性與未來市場推廣潛力。</li>
+                            <li><strong>團隊執行力 (10%):</strong> 團隊成員的專業背景與專案管理能力。</li>
+                        </ul>
+                    </section>
+                </article>
+
+                <!-- 右側：資訊總覽 -->
+                <aside class="challenge-sidebar">
+                    <div class="sidebar-header">
+                        挑戰資訊總覽
+                    </div>
+                    <div class="sidebar-content">
+                        <div class="info-block">
+                            <div class="info-label"><i class="fa-solid fa-building"></i> 出題機關</div>
+                            <div class="info-value">衛生福利部 國民健康署</div>
+                        </div>
+                        <div class="info-block">
+                            <div class="info-label"><i class="fa-solid fa-hand-holding-dollar"></i> 專案獎金</div>
+                            <div class="info-value highlight">新台幣 80萬 - 200萬</div>
+                        </div>
+                        <div class="info-block">
+                            <div class="info-label"><i class="fa-solid fa-calendar-days"></i> 徵件期間</div>
+                            <div class="info-value">2024年09月01日 - 2024年12月31日</div>
+                        </div>
+                        <div class="info-block">
+                            <div class="info-label"><i class="fa-solid fa-map-marker-alt"></i> 實證場域</div>
+                            <div class="info-value">屏東縣滿州鄉衛生所 及周邊社區</div>
+                        </div>
+                        <div class="info-block">
+                            <div class="info-label"><i class="fa-solid fa-hands-helping"></i> 提供資源</div>
+                            <ul class="resources-list">
+                                <li><i class="fa-solid fa-check"></i> 提供去識別化使用者數據</li>
+                                <li><i class="fa-solid fa-check"></i> 銜接現有長照 2.0 計畫</li>
+                                <li><i class="fa-solid fa-check"></i> 在地醫療與社工人員協作</li>
+                                <li><i class="fa-solid fa-check"></i> 專業領域業師輔導</li>
+                                <li><i class="fa-solid fa-check"></i> 協助商業模式驗證與媒合</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="btn-propose"><i class="fa-solid fa-paper-plane"></i> 立即提案</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
