@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>農業改良試驗場 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding-top: 64px; }
+        h2 { font-size: 1.8rem; margin-bottom: 24px; color: var(--primary-color); padding-bottom: 12px; border-bottom: 2px solid var(--secondary-color); display: inline-block; }
+        .btn { display: inline-block; text-align: center; width: 100%; padding: 14px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease; }
+        .btn:hover { background-color: #0a4a50; }
+        .btn-outline { background: none; border: 2px solid var(--primary-color); color: var(--primary-color); }
+        .btn-outline:hover { background: var(--primary-color); color: #fff; }
+
+        /* --- 頁首導覽列 --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none; }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+        
+        /* --- 主視覺區塊 (Hero) --- */
+        .hero-site {
+            background: linear-gradient(rgba(46, 139, 87, 0.7), rgba(46, 139, 87, 0.7)), url('https://images.unsplash.com/photo-1599591436423-e9b6719a8a7c?auto=format&fit=crop&w=1770&q=80') no-repeat center center/cover;
+            color: #fff;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .hero-site .breadcrumb { font-size: 0.9rem; margin-bottom: 8px; opacity: 0.9; }
+        .hero-site .breadcrumb a { color: #fff; text-decoration: none; }
+        .hero-site .breadcrumb a:hover { text-decoration: underline; }
+        .hero-site h1 { font-size: 2.8rem; font-weight: 700; }
+
+        /* --- 頁面主體兩欄式佈局 --- */
+        .site-detail-layout {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 48px;
+        }
+
+        /* --- 左側主內容 --- */
+        .main-content .intro-text { font-size: 1.1rem; color: var(--text-light); margin-bottom: 32px; }
+        
+        /* 照片集 */
+        .gallery .main-image img { width: 100%; border-radius: 12px; margin-bottom: 16px; aspect-ratio: 16/9; object-fit: cover; }
+        .thumbnails { display: flex; gap: 12px; }
+        .thumbnails img { width: 100px; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.3s; }
+        .thumbnails img:hover, .thumbnails img.active { border-color: var(--primary-color); }
+        
+        /* 場域規格 */
+        .spec-list { list-style: none; padding-left: 0; }
+        .spec-list > li { margin-bottom: 24px; }
+        .spec-list h3 { font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; }
+        .spec-list h3 i { margin-right: 12px; color: var(--secondary-color); }
+        .spec-list ul { list-style: none; padding-left: 36px; }
+        .spec-list li li { margin-bottom: 8px; }
+        .spec-list li li::before { content: '✓'; color: var(--secondary-color); font-weight: bold; margin-right: 10px; }
+
+        /* 適合技術領域 */
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 12px; list-style: none; }
+        .tech-tags li { background-color: #eaf3f3; color: var(--primary-color); padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 500; }
+        
+        /* --- 右側側邊欄 --- */
+        .sidebar { position: sticky; top: 100px; }
+        .sidebar-card { background: #fff; padding: 24px; border-radius: 12px; box-shadow: var(--card-shadow); margin-bottom: 32px; }
+        .sidebar-card h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .info-list li { display: flex; margin-bottom: 16px; font-size: 1rem; }
+        .info-list i { color: var(--secondary-color); margin-right: 12px; width: 20px; text-align: center; }
+        .info-list .info-label { font-weight: 700; margin-right: 8px; flex-shrink: 0; }
+        .map-container { overflow: hidden; border-radius: 8px; }
+        .map-container iframe { border: 0; width: 100%; height: 200px; }
+        .sidebar-card .btn { margin-top: 8px; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .site-detail-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-top: 40px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-site h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav><ul class="nav-links"> <!-- ... 導覽連結 ... --> </ul></nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 主視覺 -->
+        <section class="hero-site">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#">首頁</a> &gt; <a href="#">技術驗證</a> &gt; <span>農業改良試驗場</span>
+                </div>
+                <h1>農業改良試驗場</h1>
+            </div>
+        </section>
+
+        <!-- 頁面主體 -->
+        <section class="page-content">
+            <div class="container">
+                <div class="site-detail-layout">
+                    <!-- 左側主內容 -->
+                    <div class="main-content">
+                        <p class="intro-text">
+                            本場域致力於成為台灣智慧農業科技的搖籃，串連學術研究與產業應用。我們提供標準化的田間與溫室環境，歡迎無人機應用、物聯網感測、農業大數據分析等領域的新創團隊進駐，加速您的技術從實驗室走向商業化。
+                        </p>
+                        
+                        <section id="gallery">
+                            <h2><i class="fa-solid fa-images"></i> 場域實景</h2>
+                            <div class="gallery">
+                                <div class="main-image">
+                                    <img id="main-photo" src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1200&q=80" alt="戶外田間全景">
+                                </div>
+                                <div class="thumbnails">
+                                    <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1200&q=80" alt="戶外田間" class="active" onclick="changeImage(this)">
+                                    <img src="https://images.unsplash.com/photo-1586798271654-013149e8e974?auto=format&fit=crop&w=1200&q=80" alt="智慧溫室" onclick="changeImage(this)">
+                                    <img src="https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=1200&q=80" alt="田間感測器" onclick="changeImage(this)">
+                                    <img src="https://images.unsplash.com/photo-1601243918504-a21c1a938833?auto=format&fit=crop&w=1200&q=80" alt="無人機作業" onclick="changeImage(this)">
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="specs">
+                            <h2><i class="fa-solid fa-cogs"></i> 場域規格</h2>
+                            <ul class="spec-list">
+                                <li>
+                                    <h3><i class="fa-solid fa-tractor"></i> 戶外田間</h3>
+                                    <ul>
+                                        <li>總面積 5 公頃作物輪作區</li>
+                                        <li>劃設標準化物聯網感測器測試田 (10m x 10m)</li>
+                                        <li>配備微型氣象站，提供即時環境數據</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h3><i class="fa-solid fa-seedling"></i> 智慧溫室</h3>
+                                    <ul>
+                                        <li>200 坪環控玻璃溫室，可調控溫濕度與光照</li>
+                                        <li>自動化滴灌與養液供應系統</li>
+                                        <li>適合高經濟價值作物栽培模式驗證</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h3><i class="fa-solid fa-database"></i> 數據與設備</h3>
+                                    <ul>
+                                        <li>提供場域過去 3 年的氣象與土壤數據集</li>
+                                        <li>共享實驗室，提供基礎土壤與作物分析儀器</li>
+                                        <li>提供無人機起降與充電區域</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <section id="tech-fields">
+                             <h2><i class="fa-solid fa-lightbulb"></i> 適合技術領域</h2>
+                             <ul class="tech-tags">
+                                 <li>AgriTech</li>
+                                 <li>無人機應用</li>
+                                 <li>物聯網 (IoT) 感測</li>
+                                 <li>農業大數據分析</li>
+                                 <li>自動化灌溉與施肥</li>
+                                 <li>AI 作物生長辨識</li>
+                                 <li>土壤與環境監測</li>
+                             </ul>
+                        </section>
+
+                    </div>
+
+                    <!-- 右側側邊欄 -->
+                    <aside class="sidebar">
+                        <div class="sidebar-card">
+                            <h3><i class="fa-solid fa-circle-info"></i> 關鍵資訊</h3>
+                            <ul class="info-list">
+                                <li><i class="fa-solid fa-location-dot"></i> <span class="info-label">地點:</span> 桃園市楊梅區</li>
+                                <li><i class="fa-solid fa-landmark"></i> <span class="info-label">類型:</span> 戶外田間 & 智慧溫室</li>
+                                <li><i class="fa-solid fa-star"></i> <span class="info-label">特色:</span> 數據完整、設施標準化</li>
+                                <li><i class="fa-solid fa-phone"></i> <span class="info-label">窗口:</span> (03) 123-4567 陳博士</li>
+                            </ul>
+                        </div>
+                        <div class="sidebar-card">
+                            <h3><i class="fa-solid fa-map-marked-alt"></i> 場域位置</h3>
+                            <div class="map-container">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.848074358826!2d121.1458983150016!3d24.80053998408197!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34683bf1e0d37e5d%3A0x298251a3ba367128!2z6Ie655S35Y-k55S35p2R6ZmE5Y-k6YGL!5e0!3m2!1szh-TW!2stw!4v1672533000000!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                        </div>
+                        <div class="sidebar-card">
+                            <h3><i class="fa-solid fa-file-signature"></i> 如何申請</h3>
+                            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 16px;">歡迎下載申請簡章，或直接與我們聯繫安排場勘。</p>
+                            <a href="#" class="btn" style="margin-bottom: 12px;">下載申請簡章</a>
+                            <a href="#" class="btn btn-outline">預約場勘諮詢</a>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer style="margin-top: 80px; background: #212529; color: #ccc; padding: 48px 0;">
+        <!-- ... 頁腳程式碼 ... -->
+    </footer>
+
+    <script>
+        function changeImage(element) {
+            // 更新主圖片的 src
+            document.getElementById('main-photo').src = element.src;
+
+            // 處理 thumbnails 的 active class
+            var thumbnails = document.querySelectorAll('.thumbnails img');
+            thumbnails.forEach(function(thumb) {
+                thumb.classList.remove('active');
+            });
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

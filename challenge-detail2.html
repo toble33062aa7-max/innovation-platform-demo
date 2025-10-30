@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>循環經濟資源回收系統挑戰 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        ul { list-style: none; }
+        a { text-decoration: none; color: var(--primary-color); }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: var(--text-color); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- 主內容區 --- */
+        main { padding: 48px 0; }
+        
+        /* 頁面標題與麵包屑 */
+        .page-header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        /* 挑戰詳情兩欄式佈局 */
+        .challenge-detail-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+        }
+        
+        /* 左側主內容 */
+        .main-content .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 32px;
+            color: var(--text-light);
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+        .content-section h2 {
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary-color);
+            display: inline-block;
+        }
+        .content-section ul {
+            list-style-type: disc;
+            padding-left: 24px;
+        }
+        .content-section li {
+            margin-bottom: 12px;
+        }
+
+        /* 右側側邊欄 */
+        .sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        
+        /* 關鍵資訊卡 */
+        .key-info-box {
+            background: #fff;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 32px;
+        }
+        .key-info-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        .key-info-box ul li {
+            display: flex;
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+        .key-info-box ul i {
+            color: var(--secondary-color);
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+        .key-info-box .info-label {
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        /* 申請流程時間軸 */
+        .process-timeline h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        .timeline-list {
+            list-style: none;
+            padding-left: 20px;
+            border-left: 2px solid var(--secondary-color);
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 32px;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -32px;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: #fff;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #fff;
+        }
+        .timeline-item h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .timeline-item .duration {
+            font-size: 0.9rem;
+            color: #fff;
+            background-color: var(--primary-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        .timeline-item p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; margin-top: 64px; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .social-links a { color: #fff; font-size: 1.5rem; margin-left: 16px; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .challenge-detail-layout {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+                margin-top: 40px;
+            }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .page-header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <div class="breadcrumb">
+                    <a href="#">首頁</a> &gt; <a href="#">尋找挑戰</a> &gt; <span>循環經濟</span>
+                </div>
+                <h1>循環經濟資源回收系統挑戰</h1>
+            </div>
+
+            <div class="challenge-detail-layout">
+                <!-- 左側主內容 -->
+                <div class="main-content">
+                    <p class="intro-text">
+                        為響應國家 2050 淨零轉型目標，並提升資源循環效率，行政院環境保護署現徵求創新的智慧回收解決方案。本挑戰旨在利用科技力量，解決特定回收物（如：廢電池、塑膠飲料杯）分類困難、回收率不彰的問題，鼓勵新創團隊開發整合軟硬體的系統，共同打造更便利、更高效的城市回收網絡。
+                    </p>
+
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-bullseye"></i> 挑戰背景</h2>
+                        <p>台灣的資源回收率雖名列前茅，但在特定項目上仍面臨瓶頸。民眾對於複雜的分類規則感到困惑，導致前端分類不確實，增加後端處理成本與資源浪費。特別是體積小、種類多的廢電池與複合材質的塑膠容器，是目前回收體系中的痛點。</p>
+                    </section>
+                    
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-code"></i> 技術需求說明</h2>
+                        <ul>
+                            <li>開發具備 AI 影像辨識功能的智慧回收機台，能自動辨識投入的回收物種類（至少包含 3 種以上電池、2 種以上塑膠杯）。</li>
+                            <li>建立使用者激勵機制，例如透過 App 累積點數，兌換商品或服務，提升民眾參與意願。</li>
+                            <li>機台需具備 IoT 功能，能即時回報機體狀態、滿溢程度，並將回收數據傳送至雲端平台。</li>
+                            <li>後台數據分析系統，能提供視覺化儀表板，呈現各場域的回收成效與使用者行為分析。</li>
+                        </ul>
+                    </section>
+
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-chart-line"></i> 預期效益</h2>
+                        <p>透過本實證計畫，期望能達成以下目標：</p>
+                        <ul>
+                            <li>實證場域內，目標回收物的回收量提升 20% 以上。</li>
+                            <li>回收物的分類準確率達到 95% 以上，降低後端處理成本。</li>
+                            <li>建立可持續的商業模式，驗證民眾付費或點數回饋機制的市場接受度。</li>
+                            <li>收集到的數據可作為未來回收政策修訂之參考依據。</li>
+                        </ul>
+                    </section>
+                    
+                     <section class="content-section">
+                        <h2><i class="fa-solid fa-handshake-angle"></i> 出題機關提供資源</h2>
+                        <ul>
+                            <li>提供為期 6-9 個月的實證場域，包含指定政府機關、大學校園及連鎖便利商店。</li>
+                            <li>提供去識別化之區域廢棄物統計數據。</li>
+                            <li>協調環保法規與場地設置之相關許可。</li>
+                            <li>協助媒合後端回收處理業者，完善循環鏈。</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <!-- 右側側邊欄 -->
+                <aside class="sidebar">
+                    <div class="key-info-box">
+                        <h3><i class="fa-solid fa-circle-info"></i> 挑戰資訊總覽</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-building-user"></i> <span class="info-label">出題機關:</span> 行政院環境保護署</li>
+                            <li><i class="fa-solid fa-map-location-dot"></i> <span class="info-label">實證場域:</span> 指定政府機關、大學校園</li>
+                            <li><i class="fa-solid fa-hand-holding-dollar"></i> <span class="info-label">專案獎金:</span> 新台幣 60萬 - 120萬</li>
+                            <li><i class="fa-solid fa-calendar-days"></i> <span class="info-label">徵件期間:</span> 2.5 個月</li>
+                            <li><i class="fa-solid fa-tags"></i> <span class="info-label">核心技術:</span> IoT, AI 影像辨識, App 開發</li>
+                        </ul>
+                    </div>
+
+                    <div class="process-timeline">
+                        <h3><i class="fa-solid fa-list-check"></i> 提案申請流程</h3>
+                        <ol class="timeline-list">
+                            <li class="timeline-item" data-step="1">
+                                <span class="duration">徵件期間：2.5 個月</span>
+                                <h4>線上提案送件</h4>
+                                <p>請於截止日期前，至本平台提交完整提案計畫書。</p>
+                            </li>
+                            <li class="timeline-item" data-step="2">
+                                <span class="duration">審查時間：2-4 週</span>
+                                <h4>資格審查與簡報</h4>
+                                <p>由專家委員會進行書面審查，通過者將獲邀參加簡報會議。</p>
+                            </li>
+                            <li class="timeline-item" data-step="3">
+                                <span class="duration">對接時間：1-2 週</span>
+                                <h4>媒合對接與簽約</h4>
+                                <p>最終入選團隊將與出題機關簽訂場域實證合作備忘錄。</p>
+                            </li>
+                        </ol>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5G 智慧桿測試場域 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        ul { list-style: none; }
+        a { text-decoration: none; color: var(--primary-color); }
+
+        /* --- 頁首導覽列 --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-links a { color: var(--text-color); font-weight: 500; }
+
+        /* --- 子頁面主視覺區塊 (與技術驗證頁相同) --- */
+        .hero-subpage {
+            background: linear-gradient(rgba(13, 92, 99, 0.85), rgba(13, 92, 99, 0.85)), url('https://images.unsplash.com/photo-1616449927999-f0783a30c5c4?auto=format&fit=crop&w=1770&q=80') no-repeat center center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 80px 0;
+        }
+        .hero-subpage h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 16px; }
+        .hero-subpage .breadcrumb { font-size: 1rem; color: #fff; opacity: 0.8; }
+        .hero-subpage .breadcrumb a { color: #fff; }
+        .hero-subpage .breadcrumb a:hover { text-decoration: underline; }
+
+        /* --- 主內容區 --- */
+        main { padding: 48px 0; }
+        
+        /* 場域詳情兩欄式佈局 */
+        .site-detail-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 48px;
+        }
+        
+        /* 左側主內容 */
+        .main-content .intro-text { font-size: 1.1rem; margin-bottom: 32px; color: var(--text-light); }
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 {
+            font-size: 1.6rem; margin-bottom: 20px; padding-bottom: 8px;
+            border-bottom: 2px solid var(--secondary-color); display: inline-block;
+        }
+        .spec-list li { display: flex; align-items: flex-start; margin-bottom: 16px; }
+        .spec-list i { font-size: 1.2rem; color: var(--primary-color); margin-right: 12px; margin-top: 5px; width: 20px; }
+        .spec-list strong { display: block; font-weight: 700; color: #333; }
+        .spec-list span { color: var(--text-light); }
+
+        /* 右側側邊欄 */
+        .sidebar { position: sticky; top: 100px; }
+        .sidebar-box {
+            background: #f8f9fa; padding: 24px; border-radius: 12px;
+            border: 1px solid var(--border-color); margin-bottom: 32px;
+        }
+        .sidebar-box h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); }
+        
+        /* 關鍵資訊 */
+        .key-info-list li { display: flex; margin-bottom: 12px; }
+        .key-info-list i { color: var(--secondary-color); margin-right: 12px; width: 20px; }
+        
+        /* 圖片庫 */
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .gallery-img { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: opacity 0.3s ease; }
+        .gallery-img:hover { opacity: 0.8; }
+        
+        /* 行動呼籲 */
+        .cta-box { text-align: center; }
+        .cta-box p { margin-bottom: 16px; color: var(--text-light); }
+        .btn-full { display: block; width: 100%; padding: 14px; font-size: 1.1rem; }
+        
+        /* --- 頁腳 --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; margin-top: 64px; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; }
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .site-detail-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-top: 40px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-subpage h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav><ul class="nav-links"><li><a href="#">...</a></li></ul></nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 主視覺區塊 -->
+        <section class="hero-subpage">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#">首頁</a> &gt; <a href="#">技術驗證</a> &gt; <span>5G 智慧桿</span>
+                </div>
+                <h1>5G 智慧桿測試場域</h1>
+            </div>
+        </section>
+
+        <div class="container" style="margin-top: 48px;">
+            <div class="site-detail-layout">
+                <!-- 左側主內容 -->
+                <div class="main-content">
+                    <p class="intro-text">
+                        這是一處由政府與電信業者合作建置的標準化智慧城市基礎設施，位於真實的城市道路環境。新創團隊可在此預認證的場域中，快速部署並測試您的創新應用，免除繁瑣的場地申請與施工許可流程，大幅縮短產品從開發到市場驗證的時間。
+                    </p>
+
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-cogs"></i> 技術規格</h2>
+                        <ul class="spec-list">
+                            <li>
+                                <i class="fa-solid fa-wifi"></i>
+                                <div><strong>網路連接</strong><span>提供 5G SA/NSA 獨立組網與光纖網路介面，確保高頻寬與低延遲的數據傳輸。</span></div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-bolt"></i>
+                                <div><strong>電力供應</strong><span>提供穩定 AC 110V/220V 市電與 PoE (Power over Ethernet, 802.3at) 供電選項。</span></div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-ruler-combined"></i>
+                                <div><strong>掛載介面</strong><span>符合國際標準的通用型掛載支架，桿體具備 IP65 防水防塵等級，可安裝各式設備。</span></div>
+                            </li>
+                             <li>
+                                <i class="fa-solid fa-server"></i>
+                                <div><strong>數據介接</strong><span>提供標準化的 Open API，可獲取場域內基礎感測器（如：溫濕度、空氣品質）的去識別化數據。</span></div>
+                            </li>
+                        </ul>
+                    </section>
+                    
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-lightbulb"></i> 適合應用</h2>
+                        <ul class="spec-list">
+                            <li>
+                                <i class="fa-solid fa-traffic-light"></i>
+                                <div><strong>智慧交通</strong><span>AI 車流與人流偵測、智慧停車引導、V2X 車聯網通訊單元 (RSU) 測試。</span></div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-cloud-sun"></i>
+                                <div><strong>環境監測</strong><span>空氣品質 (PM2.5)、噪音、光照、紫外線等微氣候感測器部署與數據分析。</span></div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-shield-virus"></i>
+                                <div><strong>公共安全</strong><span>AI 影像監控、異常事件（如：人群聚集、煙霧）偵測、緊急廣播系統整合。</span></div>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-tower-broadcast"></i>
+                                <div><strong>創新通訊</strong><span>公共 Wi-Fi 熱點、小型基地台 (Small Cell) 覆蓋測試、物聯網 (NB-IoT/LoRa) 閘道器。</span></div>
+                            </li>
+                        </ul>
+                    </section>
+
+                     <section class="content-section">
+                        <h2><i class="fa-solid fa-handshake-angle"></i> 支援與資源</h2>
+                        <p>成功申請的團隊將可獲得：</p>
+                        <ul class="spec-list" style="margin-top: 16px;">
+                            <li><i class="fa-solid fa-user-gear"></i><div><strong>現場技術支援</strong><span>提供初次設備安裝與網路設定的現場協助。</span></div></li>
+                            <li><i class="fa-solid fa-file-contract"></i><div><strong>數據使用授權</strong><span>簽署協議後，可合法取用場域生成的數據進行模型訓練。</span></div></li>
+                            <li><i class="fa-solid fa-comments"></i><div><strong>定期回饋會議</strong><span>與場域管理方及技術專家定期開會，討論驗證進度與挑戰。</span></div></li>
+                        </ul>
+                    </section>
+                </div>
+
+                <!-- 右側側邊欄 -->
+                <aside class="sidebar">
+                    <div class="sidebar-box">
+                        <h3><i class="fa-solid fa-circle-info"></i> 關鍵資訊</h3>
+                        <ul class="key-info-list">
+                            <li><i class="fa-solid fa-map-location-dot"></i> <strong>地點：</strong> 新竹市科學園區周邊道路</li>
+                            <li><i class="fa-solid fa-calendar-alt"></i> <strong>可用時段：</strong> 週一至週五 09:00 - 17:00 (需預約)</li>
+                            <li><i class="fa-solid fa-tag"></i> <strong>核心技術：</strong> 5G, IoT, AI</li>
+                            <li><i class="fa-solid fa-building-user"></i> <strong>管理單位：</strong> 智慧城市推動辦公室</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-box">
+                        <h3><i class="fa-solid fa-images"></i> 場域實景</h3>
+                        <div class="gallery-grid">
+                            <img src="https://images.unsplash.com/photo-1621905252472-9422426cf849?auto=format&fit=crop&w=400&q=60" alt="Smart Pole 1" class="gallery-img">
+                            <img src="https://images.unsplash.com/photo-1621905251189-48a16c3563a3?auto=format&fit=crop&w=400&q=60" alt="Smart Pole 2" class="gallery-img">
+                            <img src="https://images.unsplash.com/photo-1622227932971-a2ast_card209d13f0c?auto=format&fit=crop&w=400&q=60" alt="Smart Pole 3" class="gallery-img">
+                            <img src="https://images.unsplash.com/photo-1617316379201-7d12db617c6b?auto=format&fit=crop&w=400&q=60" alt="Smart Pole 4" class="gallery-img">
+                        </div>
+                    </div>
+
+                    <div class="sidebar-box cta-box">
+                         <h3>準備好驗證您的技術了嗎？</h3>
+                         <p>填寫申請表，我們的專案經理將會盡快與您聯繫。</p>
+                         <a href="#" class="btn btn-full">立即提出申請</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">實證媒合平台</div>
+            <p>&copy; 2024 Innovation Matchmaking Platform.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

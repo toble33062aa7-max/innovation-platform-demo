@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教學醫院臨床試驗病房 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.8; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        a { text-decoration: none; color: var(--primary-color); }
+        ul { list-style: none; }
+
+        /* --- 頁首導覽列 --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none;}
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+        
+        /* --- 麵包屑 --- */
+        .breadcrumb-section { padding: 24px 0; background-color: var(--background-color); border-bottom: 1px solid var(--border-color); }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-light); }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* --- 主內容區 --- */
+        main { padding: 48px 0; }
+        .site-detail-layout { display: grid; grid-template-columns: 2.2fr 1fr; gap: 48px; }
+        
+        /* 左側主內容 */
+        .main-content .site-title { font-size: 2.5rem; color: var(--primary-color); font-weight: 700; margin-bottom: 8px; }
+        .main-content .partner-org { font-size: 1.2rem; color: var(--text-light); margin-bottom: 24px; }
+        .main-content .site-image { width: 100%; border-radius: 12px; margin-bottom: 24px; }
+        
+        .content-section { margin-bottom: 40px; }
+        .content-section h2 { font-size: 1.6rem; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--secondary-color); display: inline-block; }
+        .feature-list li { display: flex; align-items: flex-start; margin-bottom: 16px; }
+        .feature-list i { font-size: 1.2rem; color: var(--secondary-color); margin-right: 12px; margin-top: 5px; width: 20px; }
+        
+        /* 場域照片集 */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .gallery-grid img { width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+        /* 右側側邊欄 */
+        .sidebar { position: sticky; top: 100px; }
+        .site-specs-box {
+            background: var(--background-color);
+            padding: 24px; border-radius: 12px; border: 1px solid var(--border-color);
+        }
+        .site-specs-box h3 { font-size: 1.3rem; margin-bottom: 20px; color: var(--primary-color); }
+        .spec-item { display: flex; margin-bottom: 16px; font-size: 1rem; border-bottom: 1px solid #eee; padding-bottom: 12px; }
+        .spec-item:last-child { border-bottom: none; margin-bottom: 0; }
+        .spec-item i { color: var(--primary-color); margin-right: 12px; width: 20px; text-align: center; }
+        .spec-item .spec-label { font-weight: 700; color: var(--text-color); flex-shrink: 0; width: 80px; }
+        .spec-item .spec-value { color: var(--text-light); }
+        .spec-item .status-open { color: #fff; background-color: var(--secondary-color); padding: 3px 8px; border-radius: 20px; font-size: 0.8rem; }
+        
+        .btn-apply { display: block; width: 100%; padding: 14px; background-color: var(--primary-color); color: #fff; text-align: center; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; margin-top: 24px; transition: background-color 0.3s ease; }
+        .btn-apply:hover { background-color: #0a4a50; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .site-detail-layout { grid-template-columns: 1fr; }
+            .sidebar { position: static; margin-top: 40px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .main-content .site-title { font-size: 2rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav><ul class="nav-links"><li><a href="#">...</a></li></ul></nav>
+        </div>
+    </header>
+
+    <!-- 麵包屑 -->
+    <section class="breadcrumb-section">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="#">首頁</a> &gt; <a href="#">技術驗證</a> &gt; <span>教學醫院臨床試驗病房</span>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <div class="container">
+            <div class="site-detail-layout">
+                <!-- 左側主內容 -->
+                <div class="main-content">
+                    <h1 class="site-title">教學醫院臨床試驗病房</h1>
+                    <p class="partner-org">合作夥伴：國立台灣大學醫學院附設醫院 臨床試驗中心</p>
+                    <img src="https://images.unsplash.com/photo-1538688273824-7f1309f04145?auto=format&fit=crop&w=1200&q=80" alt="Modern hospital ward" class="site-image">
+
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-circle-info"></i> 場域簡介</h2>
+                        <p>本場域為符合國際 GCP (優良臨床試驗規範) 標準的專用臨床研究病房，旨在提供新創醫材、穿戴式裝置、健康照護軟體一個高度專業且合規的環境，進行早期臨床數據收集與使用者體驗驗證。場域由經驗豐富的醫護研究團隊管理，確保試驗過程的嚴謹性與受試者安全。</p>
+                    </section>
+                    
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-star"></i> 場域特色與設備</h2>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-bed-pulse"></i><div><strong>8 床獨立試驗病房</strong><br>每床皆配備多參數生理監視器、獨立衛浴與網路，確保數據準確與受試者舒適。</div></li>
+                            <li><i class="fa-solid fa-server"></i><div><strong>安全的數據基礎設施</strong><br>提供符合 HIPAA 與台灣個資法規範的數據儲存與傳輸環境，保障資料安全。</div></li>
+                            <li><i class="fa-solid fa-microscope"></i><div><strong>中央護理站與實驗室</strong><br>設有 24 小時護理站與檢體處理室，可即時響應研究需求與進行初步樣本分析。</div></li>
+                             <li><i class="fa-solid fa-wifi"></i><div><strong>高速網路與 API 介接</strong><br>全區覆蓋高速 Wi-Fi，並可協助新創解決方案與醫院資訊系統 (HIS) 進行沙盒環境介接測試。</div></li>
+                        </ul>
+                    </section>
+
+                    <section class="content-section">
+                        <h2><i class="fa-solid fa-handshake-angle"></i> 提供資源與支援</h2>
+                        <ul class="feature-list">
+                            <li><i class="fa-solid fa-user-doctor"></i><div><strong>專業人員協作</strong><br>可與主治醫師、研究護理師合作，共同設計試驗計畫並執行。</div></li>
+                            <li><i class="fa-solid fa-file-signature"></i><div><strong>倫理審查 (IRB) 諮詢</strong><br>提供 IRB 送審文件的準備諮詢，加速審查流程。</div></li>
+                            <li><i class="fa-solid fa-users"></i><div><strong>受試者招募協助</strong><br>協助鏈結醫院的受試者招募中心，尋找符合條件的自願受試者。</div></li>
+                        </ul>
+                    </section>
+                    
+                     <section class="content-section">
+                        <h2><i class="fa-solid fa-images"></i> 場域實景</h2>
+                        <div class="gallery-grid">
+                            <img src="https://images.unsplash.com/photo-1612534948636-c4b9a9643443?auto=format&fit=crop&w=600&q=60" alt="Hospital interior hallway">
+                            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=60" alt="Medical lab equipment">
+                            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=60" alt="Doctor reviewing data on a tablet">
+                            <img src="https://images.unsplash.com/photo-1551825688-5c7a922f33e8?auto=format&fit=crop&w=600&q=60" alt="Patient room interior">
+                        </div>
+                    </section>
+
+                </div>
+
+                <!-- 右側側邊欄 -->
+                <aside class="sidebar">
+                    <div class="site-specs-box">
+                        <h3><i class="fa-solid fa-clipboard-list"></i> 場域規格總覽</h3>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span class="spec-label">地點</span>
+                            <span class="spec-value">台北市中正區</span>
+                        </div>
+                        <div class="spec-item">
+                            <i class="fa-solid fa-tags"></i>
+                            <span class="spec-label">適合技術</span>
+                            <span class="spec-value">遠距醫療, 穿戴裝置, AI 輔助診斷, 醫材軟體 (SaMD)</span>
+                        </div>
+                         <div class="spec-item">
+                            <i class="fa-solid fa-shield-alt"></i>
+                            <span class="spec-label">數據合規</span>
+                            <span class="spec-value">HIPAA / GDPR / 台灣個資法</span>
+                        </div>
+                         <div class="spec-item">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span class="spec-label">申請狀態</span>
+                            <span class="spec-value"><span class="status-open">開放申請中</span></span>
+                        </div>
+                        <a href="#" class="btn-apply"><i class="fa-solid fa-paper-plane"></i> 提交驗證提案</a>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer style="margin-top: 80px;">
+        <!-- 頁腳程式碼與前頁相同 -->
+    </footer>
+
+</body>
+</html>

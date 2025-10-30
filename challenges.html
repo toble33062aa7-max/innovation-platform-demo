@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>場域實證媒合平台 - 機關出題・新創解題</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 --- */
+        :root {
+            --primary-color: #0d5c63; /* 主色調 - 深青色 */
+            --secondary-color: #2e8b57; /* 輔助色 - 海綠色 */
+            --background-color: #f8f9fa; /* 背景色 */
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- 頁首導覽列 --- */
+        .navbar {
+            background-color: #fff;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .logo i {
+            margin-right: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- 主視覺區塊 (Hero Section) --- */
+        .hero {
+            background: linear-gradient(rgba(13, 92, 99, 0.85), rgba(13, 92, 99, 0.85)), url('https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1784&q=80') no-repeat center center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* --- 篩選區塊 --- */
+        .filter-section {
+            padding: 48px 0;
+            background-color: #fff;
+        }
+
+        .filter-box {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .filter-box label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #fff;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        /* --- 挑戰列表 --- */
+        main {
+            padding: 64px 0;
+        }
+        
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .challenge-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-content {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .card-content .description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .card-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .card-features li i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .card-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+        }
+        
+        .meta-item span {
+            display: block;
+        }
+        
+        .meta-label {
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+        
+        .meta-value {
+            font-weight: 500;
+        }
+
+        .card-footer {
+            margin-top: auto;
+        }
+        
+        .btn-more {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-more:hover {
+            background-color: #0a4a50; /* 加深的 primary-color */
+        }
+
+        /* --- 頁腳 --- */
+        .footer {
+            background-color: #212529;
+            color: #ccc;
+            padding: 48px 0;
+            font-size: 0.9rem;
+        }
+
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-left: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* --- 響應式設計 --- */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .nav-links {
+                display: none; /* 在手機上簡化，可添加漢堡選單 */
+            }
+            .footer .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .social-links {
+                margin-top: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主視覺區塊 -->
+    <section class="hero">
+        <div class="container">
+            <h1>場域實證挑戰</h1>
+            <p>連結政府需求、釋放場域，加速新創技術落地與商業驗證。</p>
+        </div>
+    </section>
+
+    <!-- 篩選區塊 -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-box">
+                <label for="challenge-category"><i class="fa-solid fa-magnifying-glass"></i> 請問您想尋找哪個領域的挑戰？</label>
+                <select id="challenge-category" class="filter-select">
+                    <option value="all">所有領域</option>
+                    <option value="smart-city">智慧城市</option>
+                    <option value="digital-governance">數位治理</option>
+                    <option value="medical-health">醫療健康</option>
+                    <option value="net-zero">淨零轉型</option>
+                    <option value="smart-agriculture">智慧農業</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- 挑戰卡片列表 -->
+    <main>
+        <div class="container">
+            <div class="challenge-grid">
+                <!-- 卡片 1 -->
+                <article class="challenge-card">
+                    <div class="card-content">
+                        <h3>智慧交通影像辨識挑戰</h3>
+                        <p class="description">利用 AI 影像辨識技術，優化城市交通號誌時相，改善尖峰時段壅塞問題，並提供公開實證場域。</p>
+                        <ul class="card-features">
+                            <li><i class="fa-solid fa-square-check"></i> 提供實證場域</li>
+                            <li><i class="fa-solid fa-square-check"></i> 業師輔導資源</li>
+                        </ul>
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">專案獎金</span>
+                                <span class="meta-value">新台幣 50萬 - 150萬</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">徵件期間</span>
+                                <span class="meta-value">3 個月</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">需求領域</span>
+                                <span class="meta-value">AI, 數據分析</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn-more">瞭解更多</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 卡片 2 -->
+                <article class="challenge-card">
+                    <div class="card-content">
+                        <h3>遠距醫療健康照護方案</h3>
+                        <p class="description">針對偏鄉或行動不便的長者，開發整合性遠距醫療與日常健康監測的解決方案，將於指定社區衛生所進行實證。</p>
+                         <ul class="card-features">
+                            <li><i class="fa-solid fa-square-check"></i> 提供真實使用者數據</li>
+                            <li><i class="fa-solid fa-square-check"></i> 銜接長照計畫資源</li>
+                        </ul>
+                        <div class="card-meta">
+                           <div class="meta-item">
+                                <span class="meta-label">專案獎金</span>
+                                <span class="meta-value">新台幣 80萬 - 200萬</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">徵件期間</span>
+                                <span class="meta-value">4 個月</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">需求領域</span>
+                                <span class="meta-value">IoT, 健康照護</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn-more">瞭解更多</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 卡片 3 -->
+                <article class="challenge-card">
+                    <div class="card-content">
+                        <h3>循環經濟資源回收系統</h3>
+                        <p class="description">徵求創新的智慧回收機台或回收流程 App，提升特定回收物（如：電池、塑膠容器）的回收率與分類準確度。</p>
+                        <ul class="card-features">
+                            <li><i class="fa-solid fa-square-check"></i> 導入公家機關場域</li>
+                            <li><i class="fa-solid fa-square-check"></i> 協助商業模式驗證</li>
+                        </ul>
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">專案獎金</span>
+                                <span class="meta-value">新台幣 60萬 - 120萬</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">徵件期間</span>
+                                <span class="meta-value">2.5 個月</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">需求領域</span>
+                                <span class="meta-value">物聯網, App 開發</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="btn-more">瞭解更多</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

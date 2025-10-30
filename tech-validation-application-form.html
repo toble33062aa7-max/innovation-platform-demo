@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技術驗證申請表 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+            --required-color: #d9534f;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--background-color); color: var(--text-color); line-height: 1.7; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+        
+        /* --- 頁首導覽列 --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { max-width: 1200px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none;}
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+
+        /* --- 主內容區 --- */
+        main { padding: 64px 0; }
+        .page-header { text-align: center; margin-bottom: 32px; }
+        .page-header h1 { font-size: 2.5rem; color: var(--primary-color); }
+        .page-header p { color: var(--text-light); font-size: 1.1rem; }
+        
+        /* --- 表單容器與樣式 --- */
+        .form-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .required-notice {
+            text-align: right;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+        .required-notice .star { color: var(--required-color); }
+
+        .form-section {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .form-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        .form-section h2 i {
+            margin-right: 12px;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        .form-group label .star {
+            color: var(--required-color);
+            margin-left: 4px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            font-family: 'Noto Sans TC', sans-serif;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 92, 99, 0.1);
+        }
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* 客製化檔案上傳 */
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-upload-btn {
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .file-upload-input {
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .file-upload-info {
+            display: inline-block;
+            margin-left: 16px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        /* 條款與送出 */
+        .terms-group {
+            display: flex;
+            align-items: center;
+            margin-top: 32px;
+        }
+        .terms-group input[type="checkbox"] {
+            width: 20px; height: 20px;
+            margin-right: 12px;
+            accent-color: var(--primary-color);
+        }
+        .terms-group label { margin-bottom: 0; }
+        .terms-group a { color: var(--primary-color); text-decoration: underline; }
+
+        .submit-group {
+            text-align: center;
+            margin-top: 32px;
+        }
+        .submit-btn {
+            font-size: 1.1rem;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: #fff;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #0a4a50;
+            transform: translateY(-2px);
+        }
+        
+        /* --- 響應式設計 --- */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .form-container { padding: 24px; }
+            .page-header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-header">
+                <h1>技術驗證申請表</h1>
+                <p>請填寫以下資訊，我們的專案經理將會盡快與您聯繫。</p>
+            </div>
+
+            <div class="form-container">
+                <form action="#" method="POST">
+                    <p class="required-notice">標示 <span class="star">*</span> 為必填欄位</p>
+                    
+                    <!-- 公司/團隊基本資料 -->
+                    <section class="form-section">
+                        <h2><i class="fa-solid fa-building"></i> 公司/團隊基本資料</h2>
+                        <div class="form-group">
+                            <label for="company-name">公司/團隊名稱<span class="star">*</span></label>
+                            <input type="text" id="company-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="website">官方網站</label>
+                            <input type="url" id="website" class="form-control" placeholder="https://www.example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="team-size">團隊規模<span class="star">*</span></label>
+                            <select id="team-size" class="form-control" required>
+                                <option value="">請選擇</option>
+                                <option value="1-5">1-5 人</option>
+                                <option value="6-20">6-20 人</option>
+                                <option value="21-50">21-50 人</option>
+                                <option value="50+">50 人以上</option>
+                            </select>
+                        </div>
+                    </section>
+
+                    <!-- 主要聯絡人資訊 -->
+                    <section class="form-section">
+                        <h2><i class="fa-solid fa-user"></i> 主要聯絡人資訊</h2>
+                        <div class="form-group">
+                            <label for="contact-name">姓名<span class="star">*</span></label>
+                            <input type="text" id="contact-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-title">職稱<span class="star">*</span></label>
+                            <input type="text" id="contact-title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email">Email<span class="star">*</span></label>
+                            <input type="email" id="contact-email" class="form-control" required>
+                        </div>
+                    </section>
+
+                    <!-- 技術/專案說明 -->
+                    <section class="form-section">
+                        <h2><i class="fa-solid fa-file-alt"></i> 技術/專案說明</h2>
+                        <div class="form-group">
+                            <label for="project-name">專案/技術名稱<span class="star">*</span></label>
+                            <input type="text" id="project-name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tech-area">核心技術領域<span class="star">*</span></label>
+                            <select id="tech-area" class="form-control" required>
+                                <option value="">請選擇</option>
+                                <option value="ai">AI / 機器學習</option>
+                                <option value="iot">物聯網 (IoT)</option>
+                                <option value="5g">5G 應用</option>
+                                <option value="healthtech">醫療科技</option>
+                                <option value="agritech">智慧農業</option>
+                                <option value="greentech">綠色能源 / 淨零轉型</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="proposal-upload">上傳詳細計畫書<span class="star">*</span></label>
+                            <div class="file-upload-wrapper">
+                                <span class="file-upload-btn"><i class="fa-solid fa-upload"></i> 選擇檔案</span>
+                                <input type="file" id="proposal-upload" class="file-upload-input" accept=".pdf,.doc,.docx" required>
+                                <span id="file-name" class="file-upload-info">尚未選擇檔案...</span>
+                            </div>
+                            <small style="display: block; margin-top: 8px; color: var(--text-light);">請提供 PDF, DOC, DOCX 格式，檔案大小限制 10MB。</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="site-needs">場域特殊需求說明</label>
+                            <textarea id="site-needs" class="form-control" placeholder="請簡述您對驗證場域的具體需求，例如：需要特定電力規格、高速網路、戶外空間等。"></textarea>
+                        </div>
+                    </section>
+
+                    <!-- 條款與送出 -->
+                    <div class="terms-group">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">我已閱讀並同意<a href="#" target="_blank">隱私權條款與服務協議</a>。<span class="star">*</span></label>
+                    </div>
+                    <div class="submit-group">
+                        <button type="submit" class="submit-btn">送出申請</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <footer style="margin-top: 80px;">
+        <!-- 頁腳程式碼與前頁相同 -->
+    </footer>
+    
+    <script>
+        // 簡單的 JavaScript 來顯示上傳的檔案名稱
+        const fileInput = document.getElementById('proposal-upload');
+        const fileNameSpan = document.getElementById('file-name');
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 0) {
+                    fileNameSpan.textContent = this.files[0].name;
+                } else {
+                    fileNameSpan.textContent = '尚未選擇檔案...';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

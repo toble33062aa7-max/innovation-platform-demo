@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>場域實證媒合平台 - 政府出題・新創解題</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 (與前頁相同) --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 80px 0; }
+        .section-title { font-size: 2.2rem; text-align: center; margin-bottom: 48px; font-weight: 700; color: var(--primary-color); }
+        .btn { display: inline-block; padding: 12px 24px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .btn:hover { background-color: #0a4a50; transform: translateY(-2px); }
+
+        /* --- 頁首導覽列 (與前頁相同) --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none;}
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--primary-color); }
+
+        /* --- 主視覺區塊 (Hero Section) --- */
+        .hero {
+            background: linear-gradient(rgba(13, 92, 99, 0.8), rgba(13, 92, 99, 0.8)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80') no-repeat center center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 100px 0;
+        }
+        .hero h1 { font-size: 3.5rem; font-weight: 900; margin-bottom: 16px; text-shadow: 2px 2px 8px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.25rem; max-width: 700px; margin: 0 auto 32px; opacity: 0.9; }
+
+        /* --- 如何參與區塊 (How it Works) --- */
+        .how-it-works { background-color: var(--background-color); }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            text-align: center;
+        }
+        .step-item { position: relative; }
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px;
+            right: -16px;
+            width: 100%;
+            border-top: 2px dashed var(--primary-color);
+            transform: translateX(-50%);
+            opacity: 0.3;
+        }
+        .step-number {
+            width: 80px; height: 80px;
+            background: var(--primary-color); color: #fff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; font-weight: 700;
+            margin: 0 auto 16px;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 4px var(--primary-color);
+        }
+        .step-item h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--primary-color); }
+
+        /* --- 合作機會區塊 (Goal Section) --- */
+        .goal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .goal-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 32px 24px;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .goal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow);
+            color: var(--primary-color);
+        }
+        .goal-card i { font-size: 3rem; margin-bottom: 16px; color: var(--secondary-color); transition: color 0.3s; }
+        .goal-card:hover i { color: var(--primary-color); }
+        .goal-card h4 { font-size: 1.1rem; }
+
+        /* --- 成功案例區塊 --- */
+        .success-stories { background-color: var(--background-color); }
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+        .story-card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .story-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        .story-card img { width: 100%; height: 200px; object-fit: cover; }
+        .story-content { padding: 24px; }
+        .category-tag {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+        .story-card h3 { font-size: 1.25rem; margin-bottom: 8px; color: var(--primary-color);}
+        .story-card .date { font-size: 0.9rem; color: var(--text-light); }
+        .story-footer { text-align: center; margin-top: 48px; }
+
+        /* --- 頁腳 (與前頁相同) --- */
+        .footer { background-color: #212529; color: #ccc; padding: 48px 0; font-size: 0.9rem; }
+        .footer .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+        .footer-logo { font-size: 1.3rem; font-weight: 700; color: #fff; }
+        .social-links a { color: #fff; font-size: 1.5rem; margin-left: 16px; transition: color 0.3s ease; }
+        .social-links a:hover { color: var(--secondary-color); }
+        
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .step-item:nth-child(2)::after { border: none; }
+            .story-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            section { padding: 60px 0; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .step-item::after { display: none; }
+            .footer .container { flex-direction: column; text-align: center; }
+            .social-links { margin-top: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="challenges.html">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 主視覺區塊 -->
+        <section class="hero">
+            <div class="container">
+                <h1>政府出題 新創解題</h1>
+                <p>一站式場域實證與商機媒合中心<br>Connecting Public Needs with Private Innovation</p>
+                <a href="challenges.html" class="btn">立即尋找挑戰</a>
+            </div>
+        </section>
+
+        <!-- 如何參與區塊 -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">如何參與挑戰？</h2>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h3>探索主題挑戰</h3>
+                        <p>瀏覽來自各機關、國營事業的多元實證題目。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h3>提交創新提案</h3>
+                        <p>鎖定符合您技術的挑戰，線上提交解決方案。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h3>進行審查評選</h3>
+                        <p>您的提案將由專業評委審查，爭取入選機會。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h3>展開實證合作</h3>
+                        <p>與出題機關攜手，在真實場域驗證您的技術。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 合作機會區塊 -->
+        <section class="goal-section">
+            <div class="container">
+                <h2 class="section-title">您想尋找哪種合作機會？</h2>
+                <div class="goal-grid">
+                    <a href="challenges.html" class="goal-card">
+                        <i class="fa-solid fa-search"></i>
+                        <h4>尋找挑戰</h4>
+                    </a>
+                    <a href="tech-validation.html" class="goal-card">
+                        <i class="fa-solid fa-vials"></i>
+                        <h4>技術驗證</h4>
+                    </a>
+                    <a href="#" class="goal-card">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                        <h4>尋求資金</h4>
+                    </a>
+                    <a href="#" class="goal-card">
+                        <i class="fa-solid fa-handshake"></i>
+                        <h4>商機媒合</h4>
+                    </a>
+                    <a href="#" class="goal-card">
+                        <i class="fa-solid fa-landmark"></i>
+                        <h4>政策參與</h4>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 成功案例區塊 -->
+        <section class="success-stories">
+            <div class="container">
+                <h2 class="section-title">成功案例</h2>
+                <div class="story-grid">
+                    <a href="#" class="story-card">
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=60" alt="Smart City Project">
+                        <div class="story-content">
+                            <span class="category-tag">智慧城市</span>
+                            <h3>新創 A 公司以 AI 改善停車場管理效率，導入市府大樓實證</h3>
+                            <p class="date">Sep. 11, 2023</p>
+                        </div>
+                    </a>
+                    <a href="#" class="story-card">
+                        <img src="https://images.unsplash.com/photo-1665419183204-59193267d32e?auto=format&fit=crop&w=800&q=60" alt="Net Zero Project">
+                        <div class="story-content">
+                            <span class="category-tag">淨零轉型</span>
+                            <h3>結合物聯網與區塊鏈，新創 B 公司開發之儲能系統獲台電採用</h3>
+                            <p class="date">Jul. 08, 2023</p>
+                        </div>
+                    </a>
+                    <a href="#" class="story-card">
+                        <img src="https://images.unsplash.com/photo-1558694464-51a86e108112?auto=format&fit=crop&w=800&q=60" alt="Digital Curation Project">
+                        <div class="story-content">
+                            <span class="category-tag">數位策展</span>
+                            <h3>故宮博物院攜手新創 C 公司，打造沉浸式 AR 國寶導覽體驗</h3>
+                            <p class="date">Oct. 28, 2023</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="story-footer">
+                    <a href="#" class="btn">查看更多案例</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 頁腳 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="footer-logo">實證媒合平台</div>
+                <p>&copy; 2024 Innovation Matchmaking Platform. All Rights Reserved.</p>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

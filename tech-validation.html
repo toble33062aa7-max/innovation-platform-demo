@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技術驗證場域 - 實證媒合平台</title>
+    
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- 全局樣式與變數 --- */
+        :root {
+            --primary-color: #0d5c63;
+            --secondary-color: #2e8b57;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-color: #333;
+            --text-light: #666;
+            --border-color: #e0e0e0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #fff; color: var(--text-color); line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 80px 0; }
+        .section-title { font-size: 2.2rem; text-align: center; margin-bottom: 48px; font-weight: 700; color: var(--primary-color); }
+        .btn { display: inline-block; padding: 12px 24px; background-color: var(--primary-color); color: #fff; text-decoration: none; border-radius: 8px; font-weight: 500; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .btn:hover { background-color: #0a4a50; transform: translateY(-2px); }
+
+        /* --- 頁首導覽列 --- */
+        .navbar { background-color: #fff; padding: 16px 0; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); text-decoration: none;}
+        .logo i { margin-right: 8px; }
+        .nav-links { display: flex; list-style:none; gap: 24px; }
+        .nav-links a { text-decoration: none; color: var(--text-color); font-weight: 500; }
+
+        /* --- 子頁面主視覺區塊 --- */
+        .hero-subpage {
+            background: linear-gradient(rgba(13, 92, 99, 0.85), rgba(13, 92, 99, 0.85)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1770&q=80') no-repeat center center/cover;
+            color: #fff;
+            text-align: center;
+            padding: 80px 0;
+        }
+        .hero-subpage h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 16px; }
+        .hero-subpage p { font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
+
+        /* --- 優勢特色區塊 --- */
+        .benefits-section { background-color: var(--background-color); }
+        .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center; }
+        .benefit-card { background: #fff; padding: 32px; border-radius: 12px; box-shadow: var(--card-shadow); }
+        .benefit-card i { font-size: 3rem; color: var(--secondary-color); margin-bottom: 16px; }
+        .benefit-card h3 { font-size: 1.25rem; margin-bottom: 12px; color: var(--primary-color); }
+
+        /* --- 可用場域區塊 --- */
+        .sites-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+        .site-card {
+            background-color: #fff; border-radius: 12px; box-shadow: var(--card-shadow); overflow: hidden;
+            display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .site-card:hover { transform: translateY(-8px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+        .site-card img { width: 100%; height: 200px; object-fit: cover; }
+        .site-content { padding: 24px; flex-grow: 1; display: flex; flex-direction: column; }
+        .site-content .category-tag {
+            display: inline-block; background-color: var(--secondary-color); color: #fff;
+            padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; margin-bottom: 12px;
+        }
+        .site-content h3 { font-size: 1.3rem; margin-bottom: 8px; color: var(--primary-color); }
+        .site-content p { color: var(--text-light); margin-bottom: 16px; flex-grow: 1;}
+        .site-content ul { list-style: none; padding: 0; }
+        .site-content li { font-size: 0.9rem; margin-bottom: 4px; }
+        .site-content li i { color: var(--primary-color); margin-right: 8px; }
+        
+        /* --- 申請流程區塊 (沿用首頁樣式) --- */
+        .process-section { background-color: var(--background-color); }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; text-align: center; }
+        .step-item { position: relative; }
+        .step-number {
+            width: 80px; height: 80px; background: var(--primary-color); color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; font-weight: 700; margin: 0 auto 16px;
+        }
+        .step-item h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--primary-color); }
+
+        /* --- 行動呼籲區塊 (CTA) --- */
+        .cta-section {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            border-radius: 20px;
+            margin: 0 auto;
+            max-width: 1100px;
+        }
+        .cta-section .container { padding: 64px 24px; }
+        .cta-section h2 { font-size: 2rem; margin-bottom: 16px; }
+        .cta-section .btn.btn-light { background-color: #fff; color: var(--primary-color); }
+        .cta-section .btn.btn-light:hover { background-color: #f0f0f0; }
+
+        /* --- 響應式設計 --- */
+        @media (max-width: 992px) {
+            .benefits-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-subpage h1 { font-size: 2.2rem; }
+            section { padding: 60px 0; }
+            .steps-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 頁首導覽列 -->
+    <header class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fa-solid fa-lightbulb"></i> 實證媒合平台</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#">尋找挑戰</a></li>
+                    <li><a href="#">成功案例</a></li>
+                    <li><a href="#">關於我們</a></li>
+                    <li><a href="#">聯絡我們</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- 子頁面主視覺 -->
+        <section class="hero-subpage">
+            <div class="container">
+                <h1>技術驗證場域</h1>
+                <p>在真實世界的情境中，測試、優化並證明您的創新解決方案。<br>從原型到實證，我們提供您所需的場域與資源。</p>
+            </div>
+        </section>
+
+        <!-- 優勢特色區塊 -->
+        <section class="benefits-section">
+            <div class="container">
+                <h2 class="section-title">為何選擇我們的實證場域？</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <h3>提升技術公信力</h3>
+                        <p>透過與公部門或指標性企業合作驗證，為您的技術提供最權威的背書。</p>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-database"></i>
+                        <h3>獲取真實世界數據</h3>
+                        <p>在受控的真實環境中收集數據，用於優化演算法、改善產品並驗證商業模式。</p>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fa-solid fa-users-gear"></i>
+                        <h3>接觸領域專家</h3>
+                        <p>與場域提供方的專家團隊直接交流，獲得寶貴的產業洞察與技術反饋。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 可用場域區塊 -->
+        <section class="sites-section">
+            <div class="container">
+                <h2 class="section-title">探索可用的驗證場域</h2>
+                <div class="sites-grid">
+                    <article class="site-card">
+                        <img src="https://images.unsplash.com/photo-1621905252472-9422426cf849?auto=format&fit=crop&w=800&q=60" alt="Smart Pole Testbed">
+                        <div class="site-content">
+                            <span class="category-tag">智慧城市</span>
+                            <h3>5G 智慧桿測試場域</h3>
+                            <p>提供已建置光纖與 5G 網路的智慧桿，適合掛載各式感測器、攝影機與通訊設備進行測試。</p>
+                            <ul>
+                                <li><i class="fa-solid fa-check"></i> <strong>適合技術：</strong> IoT, AI 影像辨識, 5G 應用</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="site-card">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=60" alt="Clinical Trial Ward">
+                        <div class="site-content">
+                            <span class="category-tag">醫療健康</span>
+                            <h3>教學醫院臨床試驗病房</h3>
+                            <p>符合法規的臨床環境，可與醫療團隊合作，進行穿戴式裝置、健康監測 App 等解決方案的驗證。</p>
+                             <ul>
+                                <li><i class="fa-solid fa-check"></i> <strong>適合技術：</strong> 遠距醫療, HealthTech, 穿戴裝置</li>
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="site-card">
+                        <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=800&q=60" alt="Agricultural Research Station">
+                        <div class="site-content">
+                             <span class="category-tag">智慧農業</span>
+                            <h3>農業改良試驗場</h3>
+                            <p>提供溫室與戶外田間場域，可測試土壤感測器、無人機作物監測、自動灌溉系統等農業科技。</p>
+                             <ul>
+                                <li><i class="fa-solid fa-check"></i> <strong>適合技術：</strong> AgriTech, 無人機, 環境感測</li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 申請流程區塊 -->
+        <section class="process-section">
+            <div class="container">
+                <h2 class="section-title">申請流程</h2>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h3>提交驗證提案</h3>
+                        <p>線上填寫申請表，說明您的技術、驗證目標與場域需求。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h3>技術能力審查</h3>
+                        <p>由專家委員會評估您的技術成熟度與驗證計畫的可行性。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h3>場域媒合對接</h3>
+                        <p>我們將為您媒合最適合的驗證場域，並安排雙方進行細節討論。</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h3>簽約並展開驗證</h3>
+                        <p>簽訂合作備忘錄後，即可進入場域，開始您的技術驗證之旅。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 行動呼籲區塊 -->
+        <div class="cta-section">
+            <div class="container">
+                <h2>準備好讓您的技術邁向市場了嗎？</h2>
+                <p>立即提交您的技術驗證提案，讓我們為您連結關鍵資源。</p>
+                <a href="#" class="btn btn-light" style="margin-top: 24px;">立即申請</a>
+            </div>
+        </div>
+
+    </main>
+    
+    <!-- 頁腳 -->
+    <footer style="margin-top: 80px;">
+        <!-- 頁腳程式碼與前頁相同 -->
+    </footer>
+
+</body>
+</html>
