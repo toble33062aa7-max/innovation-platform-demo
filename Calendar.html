@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動看板 - 計畫時程互動指南</title>
+
+    <!-- 引入外部字體和圖示庫 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 視覺風格與變數定義 (Talent Taiwan 色系) --- */
+        :root {
+            --primary-color: #3E837D;      /* 主色調: 專業藍綠色 */
+            --secondary-color: #4A4A4A;     /* 輔助色: 深炭灰色 */
+            --background-color: #F8F9FA;  /* 背景色: 極淺灰色 */
+            --card-background: #FFFFFF;     /* 卡片背景: 純白 */
+            --accent-light-bg: #E8F5F3;     /* 點綴背景: 淡雅藍綠 */
+            --text-dark: #333333;           /* 主要文字: 深灰色 */
+            --text-light: #6c757d;        /* 次要文字: 中灰色 */
+            --border-color: #dee2e6;        /* 邊框色: 淺灰色 */
+            --border-radius: 8px;           /* 圓角 */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.06); /* 陰影 */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--background-color); color: var(--text-dark); line-height: 1.7; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        a { text-decoration: none; color: var(--primary-color); transition: color 0.3s; }
+        a:hover { color: #2c5c58; } /* 加深的藍綠色 */
+        h1, h2, h3 { color: var(--primary-color); font-weight: 700; }
+
+        /* --- 頁首與標題區塊 --- */
+        .header { background-color: var(--card-background); padding: 15px 0; border-bottom: 1px solid var(--border-color); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); text-decoration: none;}
+        .nav-buttons .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; text-decoration: none; border-radius: 50px; font-weight: 500; transition: all 0.3s ease; border: none;
+        }
+        .btn-primary { background-color: var(--primary-color); color: #fff; }
+        .btn-primary:hover { background-color: #2c5c58; }
+        .btn-secondary { background-color: var(--secondary-color); color: #fff; }
+        .btn-secondary:hover { background-color: #333; }
+
+        .page-title-section {
+            background-color: transparent; padding: 60px 0; text-align: center;
+        }
+        .page-title-section .breadcrumb { margin-bottom: 16px; color: var(--text-light); }
+        .page-title-section .breadcrumb a { color: var(--text-light); }
+        .page-title-section h1 { font-size: 2.8rem; font-weight: 700; color: var(--primary-color); }
+        .page-title-section h1 span { font-family: 'Times New Roman', serif; font-weight: normal; margin-right: 15px; }
+        .page-title-section p { color: var(--text-light); font-size: 1.1rem; }
+
+        /* --- 日曆樣式 --- */
+        .calendar-wrapper { margin-top: -30px; position: relative; z-index: 10; margin-bottom: 60px;}
+        .calendar-card {
+            background-color: var(--card-background); border-radius: var(--border-radius); box-shadow: var(--shadow);
+            padding: 32px; border: 1px solid var(--border-color);
+        }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .calendar-title { font-size: 1.8rem; font-weight: 700; color: var(--text-dark); }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+        .day-header { text-align: center; padding: 12px 0; font-weight: 500; color: var(--text-light); border-bottom: 1px solid var(--border-color); }
+        .day {
+            border: 1px solid var(--border-color); min-height: 120px;
+            padding: 8px; margin: -1px 0 0 -1px; background-color: var(--card-background);
+        }
+        .day.other-month { background-color: var(--background-color); }
+        .day-number { font-weight: 500; }
+        .day.today .day-number {
+            background-color: var(--primary-color); color: #fff;
+            width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .event {
+            font-size: 0.85rem; padding: 4px 8px; border-radius: 4px; margin-top: 6px;
+            color: #fff; display: block; cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .event:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .event.green { background-color: var(--primary-color); }
+        .event.blue { background-color: #316B63; } /* 較深的藍綠 */
+        .event.orange { background-color: var(--secondary-color); }
+
+        /* --- 彈出視窗 (Modal) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5); z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease-in-out;
+        }
+        .modal-container {
+            background: var(--background-color); border-radius: var(--border-radius);
+            width: 90%; max-width: 960px; max-height: 90vh;
+            display: flex; flex-direction: column;
+            transform: scale(0.9); transition: all 0.3s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .modal-overlay:target { opacity: 1; visibility: visible; }
+        .modal-overlay:target .modal-container { transform: scale(1); }
+        
+        .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 32px; border-bottom: 1px solid var(--border-color);
+            background: var(--card-background); border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        .modal-title { font-size: 1.5rem; color: var(--primary-color); }
+        .modal-close { font-size: 1.8rem; color: var(--text-light); text-decoration: none; transition: transform 0.2s; }
+        .modal-close:hover { transform: rotate(90deg); color: var(--secondary-color); }
+        .modal-content { overflow-y: auto; padding: 32px; }
+        
+        /* Modal 內部優化元件 */
+        .highlight-box {
+            background-color: var(--accent-light-bg); border: 1px solid #cce8e4;
+            padding: 24px; border-radius: var(--border-radius); margin-bottom: 30px;
+            display: flex; align-items: flex-start; gap: 20px;
+        }
+        .highlight-box .icon { font-size: 2rem; color: var(--primary-color); flex-shrink: 0; }
+        .highlight-box h3 { color: var(--primary-color); margin-bottom: 4px; font-size: 1.2rem;}
+        .highlight-box p, .highlight-box ul { margin: 0; color: var(--text-dark); list-style-position: inside; }
+        
+        .info-card {
+            background-color: #fff; padding: 20px; border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        .info-card h4 { display: flex; align-items: center; color: var(--primary-color); margin-bottom: 10px; font-size: 1.1rem; }
+        .info-card h4 i { font-size: 1.2rem; margin-right: 12px; width: 28px; text-align: center; }
+        .info-card p { font-size: 0.95rem; color: var(--text-light); }
+
+        .accordion-item { border-bottom: 1px solid var(--border-color); }
+        .accordion-item:last-child { border-bottom: none; }
+        .accordion-header {
+            width: 100%; text-align: left; background: none; border: none;
+            padding: 20px 10px; font-size: 1.2rem; font-weight: 500;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            color: var(--text-dark); transition: color 0.3s;
+        }
+        .accordion-header:hover { color: var(--primary-color); }
+        .accordion-header .icon::before { content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900; transition: transform 0.3s ease;}
+        .accordion-item.active .accordion-header { color: var(--primary-color); }
+        .accordion-item.active .accordion-header .icon::before { transform: rotate(180deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fff; border-radius: 0 0 var(--border-radius) var(--border-radius); }
+        .accordion-inner { padding: 24px; }
+        .accordion-inner .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .accordion-inner ol, .accordion-inner ul { padding-left: 20px; }
+
+
+        /* --- 移植區塊樣式 (完整申請指引) --- */
+        .content-section { margin-bottom: 48px; background-color: var(--card-background); padding: 40px; border-radius: var(--border-radius); box-shadow: var(--shadow); border: 1px solid var(--border-color);}
+        .content-section h2 { font-size: 2.2rem; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        .content-section p, .content-section ul { margin-bottom: 16px; color: var(--text-dark); }
+        .content-section ul { list-style-position: inside; padding-left: 1rem; }
+        .timeline-container { position: relative; padding: 20px 0; }
+        .timeline-container::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 4px; background: var(--border-color); border-radius: 2px; }
+        .phase-block { margin-bottom: 40px; }
+        .phase-title { display: flex; align-items: center; margin-bottom: 24px; position: relative; }
+        .phase-title::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: var(--primary-color); border-radius: 50%; border: 4px solid var(--card-background); z-index: 1; }
+        .phase-title i { font-size: 1.5rem; color: #fff; position: absolute; left: 13px; top: 50%; transform: translateY(-50%); z-index: 2; }
+        .phase-title h3 { font-size: 1.6rem; margin-left: 64px; }
+        .step-card { background: var(--card-background); border-left: 5px solid var(--primary-color); margin-left: 44px; margin-bottom: 24px; border-radius: 0 var(--border-radius) var(--border-radius) 0; box-shadow: var(--shadow); }
+        .step-header { background: var(--accent-light-bg); padding: 12px 20px; border-bottom: 1px solid var(--border-color); border-radius: 0 var(--border-radius) 0 0;}
+        .step-header h4 { font-size: 1.2rem; display: flex; align-items: center; color: var(--primary-color);}
+        .step-header h4 .step-number { background: var(--primary-color); color: #fff; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; justify-content: center; align-items: center; font-size: 1rem; margin-right: 12px; }
+        .step-body { padding: 20px; }
+        .step-body h5 { margin-top: 16px; margin-bottom: 8px; font-size: 1rem; color: var(--text-dark); }
+        .step-body .doc-list li { margin-bottom: 8px; }
+        .step-body .doc-list i { margin-right: 8px; color: var(--primary-color); }
+        .btn-template { display: inline-block; margin-top: 12px; padding: 8px 16px; background-color: var(--secondary-color); color: #fff; border-radius: 5px; font-size: 0.9rem; }
+        .btn-template:hover { background-color: #333; }
+        .note { background: var(--accent-light-bg); border-left: 4px solid var(--primary-color); padding: 12px; margin-top: 16px; font-size: 0.9rem; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container navbar">
+            <a href="#" class="logo">新創採購補助計畫</a>
+            <div class="nav-buttons">
+                <a href="#" class="btn btn-primary"><i class="fa-solid fa-download"></i> 文件下載區</a>
+                <a href="#" class="btn btn-secondary"><i class="fa-solid fa-headset"></i> 聯絡執行團隊</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-title-section">
+        <div class="container">
+            <div class="breadcrumb"><a href="#">首頁</a> > <span>活動看板</span></div>
+            <h1><span>Calendar</span> 計畫時程互動指南</h1>
+            <p>點擊日曆上的關鍵事件，即可查看所有詳細資訊。</p>
+        </div>
+    </section>
+
+    <main>
+        <div class="container calendar-wrapper">
+            <div class="calendar-card">
+                <div class="calendar-header">
+                    <h2 class="calendar-title">114年 / 2025年 計畫時程總覽</h2>
+                </div>
+                <!-- Calendar HTML remains the same -->
+                 <h3 style="margin-top:20px; color:var(--text-dark);">5月: 提案與審查</h3>
+                <div class="calendar-grid">
+                    <div class="day-header">週日</div><div class="day-header">週一</div><div class="day-header">週二</div><div class="day-header">週三</div><div class="day-header">週四</div><div class="day-header">週五</div><div class="day-header">週六</div>
+                    <div class="day other-month"><span class="day-number">27</span></div><div class="day other-month"><span class="day-number">28</span></div><div class="day other-month"><span class="day-number">29</span></div><div class="day other-month"><span class="day-number">30</span></div>
+                    <div class="day"><span class="day-number">1</span></div><div class="day"><span class="day-number">2</span></div><div class="day"><span class="day-number">3</span></div>
+                    <div class="day"><span class="day-number">4</span></div><div class="day"><span class="day-number">5</span></div><div class="day"><span class="day-number">6</span></div><div class="day"><span class="day-number">7</span></div><div class="day"><span class="day-number">8</span></div><div class="day"><span class="day-number">9</span></div><div class="day"><span class="day-number">10</span></div>
+                    <div class="day"><span class="day-number">11</span></div><div class="day"><span class="day-number">12</span></div><div class="day"><span class="day-number">13</span></div><div class="day"><span class="day-number">14</span></div>
+                    <div class="day"><span class="day-number">15</span><a href="#application-modal" class="event green">申請文件截止</a></div>
+                    <div class="day"><span class="day-number">16</span></div><div class="day"><span class="day-number">17</span></div>
+                    <div class="day"><span class="day-number">18</span></div><div class="day"><span class="day-number">19</span></div><div class="day"><span class="day-number">20</span></div><div class="day"><span class="day-number">21</span></div><div class="day"><span class="day-number">22</span></div><div class="day"><span class="day-number">23</span></div><div class="day"><span class="day-number">24</span></div>
+                    <div class="day"><span class="day-number">25</span></div><div class="day"><span class="day-number">26</span></div><div class="day"><span class="day-number">27</span></div>
+                    <div class="day today"><span class="day-number">28</span><a href="#briefing-modal" class="event green">審查簡報繳交</a></div>
+                    <div class="day"><span class="day-number">29</span></div><div class="day"><span class="day-number">30</span></div><div class="day"><span class="day-number">31</span></div>
+                </div>
+                <h3 style="margin-top:40px; color:var(--text-dark);">6月-7月: 簽約與啟動</h3>
+                <div class="calendar-grid">
+                    <div class="day"><span class="day-number">...</span></div><div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">6/10</span><a href="#briefing-modal" class="event blue">審查會議</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">6/25</span><a href="#briefing-modal" class="event orange">公告審查結果</a></div>
+                    <div class="day"><span class="day-number">...</span></div><div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">...</span></div><div class="day"><span class="day-number">...</span></div><div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">7/10</span><a href="#contract-modal" class="event green">簽約&請款文件截止</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">7/30</span><a href="#contract-modal" class="event orange">撥付第一期款</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                </div>
+                <h3 style="margin-top:40px; color:var(--text-dark);">8月-11月: 執行與結案</h3>
+                <div class="calendar-grid">
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">每月10號</span><a href="#midterm-modal" class="event green">繳交工作紀錄</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">9/15</span><a href="#midterm-modal" class="event blue">期中審查會議</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">11/10</span><a href="#closing-modal" class="event green">期末報告初稿截止</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">11/20</span><a href="#closing-modal" class="event blue">期末審查(驗收)</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">11/30</span><a href="#closing-modal" class="event green">結案&請款文件截止</a></div>
+                    <div class="day"><span class="day-number">...</span></div>
+                    <div class="day"><span class="day-number">12/20</span><a href="#closing-modal" class="event orange">撥付第二期款</a></div>
+                    <div class="day"><span class="day-number">...</span></div><div class="day"><span class="day-number">...</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <section id="application-guide" class="content-section">
+                 <!-- Timeline HTML remains the same -->
+                 <h2><i class="fa-solid fa-rocket"></i> 完整申請與執行指引</h2>
+                <p>為協助您順利參與並完成本項挑戰，我們將所有流程、所需文件及注意事項彙整如下。請依循各階段說明，以確保您的權益。</p>
+                
+                <div class="timeline-container">
+                    <!-- 階段一 -->
+                    <div class="phase-block">
+                        <div class="phase-title">
+                            <i class="fa-solid fa-file-signature"></i>
+                            <h3>階段一：申請與審查</h3>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">1</span>資格確認</h4></div>
+                            <div class="step-body">
+                                <p>在提交申請前，請務必確認您的單位符合以下資格：</p>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-check"></i> 依我國法規設立之公司或機構。</li>
+                                    <li><i class="fa-solid fa-check"></i> 成立8年內（以申請日為準）。</li>
+                                    <li><i class="fa-solid fa-check"></i> 非屬銀行拒絕往來戶。</li>
+                                    <li><i class="fa-solid fa-check"></i> （若適用）如為老人福利、長照機構，需檢附設立許可書影本及最近一期評鑑甲等證明。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">2</span>備妥並提交申請文件 (114/06/06 前)</h4></div>
+                            <div class="step-body">
+                                <p>請備妥以下所有文件，於截止日期前繳交。</p>
+                                <h5 class="step-body-heading">應備文件清單：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-file-alt"></i> <strong>基本資料申請表</strong>（附件一）1份</li>
+                                    <li><i class="fa-solid fa-file-alt"></i> <strong>登記或設立之證明文件</strong> 影本1份</li>
+                                    <li><i class="fa-solid fa-file-alt"></i> <strong>最近一期納稅證明</strong> 影本1份</li>
+                                    <li><i class="fa-solid fa-file-alt"></i> <strong>計畫書及附件</strong>（裝訂成冊）1式10份</li>
+                                    <li><i class="fa-solid fa-file-alt"></i> <strong>公職人員及關係人身分關係揭露表</strong>（附件十）（如適用）1份</li>
+                                </ul>
+                                <a href="#" class="btn-template"><i class="fa-solid fa-download"></i> 下載計畫書範本</a>
+                                <div class="note"><strong>計畫書撰寫提示：</strong>頁數不限，但建議參考範本架構，清晰說明問題背景、解題構想、預期功能、期程與效益。</div>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">3</span>參與審查會議</h4></div>
+                            <div class="step-body">
+                                <p>通過書面審查後，將另行通知審查會議時間。請依通知準備簡報。</p>
+                                <h5>簡報準備要點：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-clock"></i> <strong>時間：</strong>簡報10分鐘（含問答）。</li>
+                                    <li><i class="fa-solid fa-file-powerpoint"></i> <strong>頁數：</strong>建議10頁以內。</li>
+                                    <li><i class="fa-solid fa-lightbulb"></i> <strong>核心架構：</strong>議題前瞻性、構想可行性、場域安排周全度、行政協處完善度。</li>
+                                </ul>
+                                <a href="#" class="btn-template"><i class="fa-solid fa-download"></i> 下載審查簡報範本</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 其它階段 -->
+                    <div class="phase-block">
+                        <div class="phase-title">
+                            <i class="fa-solid fa-pen-nib"></i>
+                            <h3>階段二：簽約與啟動</h3>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">4</span>修訂計畫書並準備簽約文件</h4></div>
+                            <div class="step-body">
+                                <p>審查結果公告後，獲選單位需依委員意見調整計畫書，並準備以下簽約及請款文件。</p>
+                                <h5>簽約資料清單：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-file-invoice"></i> <strong>函文</strong> 1份</li>
+                                    <li><i class="fa-solid fa-book"></i> <strong>膠裝契約書</strong> 正本2份 (內含：契約本文、合作備忘錄MOU影本、最終版計畫書)</li>
+                                    <li><i class="fa-solid fa-file-contract"></i> <strong>單獨契約影本</strong> 1份</li>
+                                </ul>
+                                <h5>第一期款請款資料 (併同簽約文件繳交)：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-file-invoice-dollar"></i> <strong>請款申請書</strong> 1份</li>
+                                    <li><i class="fa-solid fa-receipt"></i> <strong>收據</strong> (金額為補助款之30%) 1份</li>
+                                    <li><i class="fa-solid fa-university"></i> <strong>清空之專戶存摺影本</strong> 1份 (需加蓋大小章及「與正本相符」)</li>
+                                </ul>
+                                <a href="#" class="btn-template"><i class="fa-solid fa-download"></i> 下載簽約及請款文件包</a>
+                                <div class="note"><strong>契約書製作注意：</strong>請依範本填寫，勿自行更動條文。契約書每頁需蓋騎縫章（公司大小章及負責人小章）。</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phase-block">
+                        <div class="phase-title">
+                            <i class="fa-solid fa-tasks"></i>
+                            <h3>階段三：執行與管考</h3>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">5</span>依時程執行並回報進度</h4></div>
+                            <div class="step-body">
+                                <p>計畫期間，請依時程執行，並定期繳交工作紀錄及參與期中審查。</p>
+                                <h5>重要時程節點：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-calendar-alt"></i> <strong>每月10日前：</strong>繳交前一月份工作紀錄表。</li>
+                                    <li><i class="fa-solid fa-users"></i> <strong>期中：</strong>依通知參與期中審查會議並提交簡報。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">6</span>辦理契約變更 (若有需要)</h4></div>
+                            <div class="step-body">
+                                <p>若計畫執行中發生重大變動，需辦理契約變更。通常於期中審查會議後，依委員決議辦理。</p>
+                                <h5>常見變更事由：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-user-friends"></i> <strong>人事異動：</strong>計畫人員離職或新進。</li>
+                                    <li><i class="fa-solid fa-cogs"></i> <strong>規格/驗收方式變更：</strong>因應機關要求或不可抗力因素，但非因自身能力或預估失準。</li>
+                                    <li><i class="fa-solid fa-money-bill-wave"></i> <strong>經費流用：</strong>各會計科目實際支出與原預算有異動。</li>
+                                </ul>
+                                <h5>契約變更應備文件：</h5>
+                                <p>需備妥變更申請公文、申請表、對照表、修訂後計畫書、相關證明文件(如勞保資料、機關同意信件)等。</p>
+                                <a href="#" class="btn-template"><i class="fa-solid fa-download"></i> 下載契約變更申請文件包</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phase-block">
+                        <div class="phase-title">
+                            <i class="fa-solid fa-flag-checkered"></i>
+                            <h3>階段四：結案與驗收</h3>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">7</span>參與期末審查並準備結案文件</h4></div>
+                            <div class="step-body">
+                                <p>計畫期程結束後，將進行期末審查驗收。請依通知時間提交報告初稿並參與會議。</p>
+                                <h5>期末審查前應繳交：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-file-alt"></i> 期末報告初稿</li>
+                                    <li><i class="fa-solid fa-calculator"></i> 經費動支報告</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-header"><h4><span class="step-number">8</span>繳交第二期款請款資料</h4></div>
+                            <div class="step-body">
+                                <p>依期末審查委員意見修改報告後，請備妥以下文件，申請補助款尾款(70%)。</p>
+                                <h5>第二期款請款資料清單：</h5>
+                                <ul class="doc-list">
+                                    <li><i class="fa-solid fa-file-archive"></i> <strong>最終版結案報告</strong> (依委員建議修改)</li>
+                                    <li><i class="fa-solid fa-user-check"></i> <strong>會計師查核報告</strong> (需委請合格會計師製作)</li>
+                                    <li><i class="fa-solid fa-file-excel"></i> <strong>會計核銷總表</strong> (Excel檔)</li>
+                                    <li><i class="fa-solid fa-folder-open"></i> <strong>相關支出證明文件</strong> (發票、財產目錄、薪資表等)</li>
+                                    <li><i class="fa-solid fa-video"></i> <strong>成果影片</strong> (若合約有規定)</li>
+                                    <li><i class="fa-solid fa-receipt"></i> <strong>尾款收據</strong> 及 <strong>請款申請書</strong></li>
+                                </ul>
+                                <div class="note"><strong>最終撥款：</strong>所有文件審核通過後，將撥付第二期款，並請於撥款後將計畫專戶餘額清空。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </main>
+    
+    <!-- ========= MODALS (已修復並還原所有內容) ========= -->
+    <div id="application-modal" class="modal-overlay">
+        <div class="modal-container">
+            <header class="modal-header">
+                <h2 class="modal-title"><i class="fa-solid fa-file-signature"></i> 階段一：申請與提案</h2>
+                <a href="#" class="modal-close"><i class="fa-solid fa-xmark"></i></a>
+            </header>
+            <div class="modal-content">
+                <div class="highlight-box">
+                    <div class="icon"><i class="fa-solid fa-flag-checkered"></i></div>
+                    <div><h3>關鍵時程：申請文件繳交</h3><p>請於 <strong>114年5月15日</strong> 前，備妥所有文件並完成寄送。</p></div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <button class="accordion-header"><span>我是否符合申請資格？</span><span class="icon"></span></button>
+                        <div class="accordion-content" style="max-height: 500px;"><div class="accordion-inner">
+                            <ul>
+                                <li><i class="fa-solid fa-check" style="color: var(--primary-color);"></i> 成立8年內之公司 (以申請日為準)。</li>
+                                <li><i class="fa-solid fa-check" style="color: var(--primary-color);"></i> 需檢附公司設立登記證明。</li>
+                                <li><i class="fa-solid fa-check" style="color: var(--primary-color);"></i> (如適用) 老人福利機構、長照機構需附設立許可書影本。</li>
+                                <li><i class="fa-solid fa-check" style="color: var(--primary-color);"></i> (如適用) 機構最近一期評鑑結果須為甲等以上 (附公文影本)。</li>
+                            </ul>
+                        </div></div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header"><span>申請應備文件清單</span><span class="icon"></span></button>
+                        <div class="accordion-content"><div class="accordion-inner">
+                            <div class="card-grid">
+                                <div class="info-card"><h4><i class="fa-solid fa-1"></i> 基本資料申請表</h4><p>(<a href="#">附件一</a>)</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-2"></i> 登記或設立證明</h4><p>影本</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-3"></i> 納稅證明</h4><p>影本</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-4"></i> 計畫書</h4><p>1式10份 (<a href="#">附件二</a>)</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-5"></i> 身分關係揭露表</h4><p>(<a href="#">附件十</a>)</p></div>
+                            </div>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="briefing-modal" class="modal-overlay">
+        <div class="modal-container">
+            <header class="modal-header">
+                <h2 class="modal-title"><i class="fa-solid fa-person-chalkboard"></i> 階段二：審查會議</h2>
+                <a href="#" class="modal-close"><i class="fa-solid fa-xmark"></i></a>
+            </header>
+            <div class="modal-content">
+                <div class="highlight-box">
+                    <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div>
+                        <h3>關鍵時程</h3>
+                        <ul>
+                            <li><strong>5月28日(三) 17:00 前</strong>：繳交審查簡報電子檔。</li>
+                            <li><strong>6月10日 (暫定)</strong>：補助申請審查會議。</li>
+                            <li><strong>6月25日 (暫定)</strong>：公告審查結果。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <button class="accordion-header"><span>簡報架構詳細說明 (10分鐘，約10頁)</span><span class="icon"></span></button>
+                        <div class="accordion-content" style="max-height: 500px;"><div class="accordion-inner">
+                            <p>核心包含三大主軸：</p>
+                            <ol>
+                                <li><strong>議題前瞻性：</strong>開創性、可用性、潛力與影響力。</li>
+                                <li><strong>議題構想可行性：</strong>解題構想、技術/法規可行性、期程(4個月內,最晚11/30)。</li>
+                                <li><strong>實證場域與行政協處：</strong>確保場域可實施、人力與數據協助完善度。</li>
+                            </ol>
+                            <p style="margin-top: 15px;"><strong>提交注意事項：</strong><br>
+                            請將簡報檔案(PDF/PPT)寄至 service@spp.org.tw，檔名為「[提案單位全稱]-114新創採購簡報」。</p>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contract-modal" class="modal-overlay">
+         <div class="modal-container">
+            <header class="modal-header"><h2 class="modal-title"><i class="fa-solid fa-pen-to-square"></i> 階段三：簽約與請款</h2><a href="#" class="modal-close"><i class="fa-solid fa-xmark"></i></a></header>
+            <div class="modal-content">
+                <div class="highlight-box">
+                    <div class="icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div><h3>關鍵時程</h3><p>請於 <strong>7月10日前</strong> 將所有「契約書」及「第一期款請款文件」一併備妥寄出。</p></div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <button class="accordion-header"><span>契約書製作要點</span><span class="icon"></span></button>
+                        <div class="accordion-content" style="max-height: 500px;"><div class="accordion-inner">
+                             <p>需準備<strong>膠裝契約書正本2份</strong>，內容包含：</p>
+                            <ol>
+                                <li><strong>契約本文：</strong>填入公司名、計畫名、經費、專戶資料。(<a href="#">格式</a>)</li>
+                                <li><strong>合作備忘錄(MOU)：</strong>與出題機關簽訂後，置入影本。(<a href="#">格式</a>)</li>
+                                <li><strong>修正後計畫書：</strong>含審查意見回覆對照表。</li>
+                                <li><strong>騎縫章：</strong>每頁均需蓋公司大小章及負責人小章之騎縫章。</li>
+                            </ol>
+                        </div></div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header"><span>簽約及第一期款文件清單</span><span class="icon"></span></button>
+                        <div class="accordion-content"><div class="accordion-inner">
+                            <div class="card-grid">
+                                <div class="info-card"><h4><i class="fa-solid fa-1"></i> 函文</h4><p>(<a href="#">範本</a>)</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-2"></i> 膠裝契約書</h4><p>2本正本</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-3"></i> 請款申請書</h4><p>(<a href="#">格式</a>)</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-4"></i> 第一期款收據</h4><p>補助款30%</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-5"></i> 專戶存摺影本</h4><p>含封面及0元內頁</p></div>
+                                <div class="info-card"><h4><i class="fa-solid fa-6"></i> 單獨契約影本</h4><p>1份</p></div>
+                            </div>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="midterm-modal" class="modal-overlay">
+         <div class="modal-container">
+            <header class="modal-header"><h2 class="modal-title"><i class="fa-solid fa-bars-progress"></i> 階段四：執行與管考</h2><a href="#" class="modal-close"><i class="fa-solid fa-xmark"></i></a></header>
+            <div class="modal-content">
+                <div class="highlight-box">
+                    <div class="icon"><i class="fa-solid fa-tasks"></i></div>
+                    <div>
+                        <h3>關鍵時程</h3>
+                        <ul>
+                            <li><strong>每月 10 日前</strong>：繳交前一月份工作紀錄。</li>
+                            <li><strong>9月15日 (暫定)</strong>：期中審查會議 (需準備簡報)。</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accordion">
+                     <div class="accordion-item active">
+                        <button class="accordion-header"><span>契約變更指南</span><span class="icon"></span></button>
+                        <div class="accordion-content" style="max-height: 500px;"><div class="accordion-inner">
+                            <strong>觸發時機：</strong>
+                            <ul>
+                                <li>計畫人員異動 (離職/新進)。</li>
+                                <li>規格/驗收方式/查核點變更 (需有合理理由)。</li>
+                            </ul>
+                            <strong>應備文件：</strong>
+                            <ol>
+                                <li>變更申請公文函、申請表、變更對照表、修訂後計畫書。</li>
+                                <li>(人事)勞保資料、(規格)機關同意書/信件。</li>
+                            </ol>
+                        </div></div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header"><span>會計經費與核銷指南</span><span class="icon"></span></button>
+                        <div class="accordion-content"><div class="accordion-inner">
+                            <p><strong>可編列科目：</strong>人事費、差旅費、消耗性器材費、設備使用及維護費、與研究有關費用。</p>
+                            <p><strong>工時紀錄表：</strong>請假時數(不論事由)均不得列入投入工時；加班時數需有簽核紀錄。</p>
+                            <p><strong>會計師查核：</strong>期末需繳交會計師查核報告，請預先尋找合格會計師。</p>
+                        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="closing-modal" class="modal-overlay">
+         <div class="modal-container">
+            <header class="modal-header"><h2 class="modal-title"><i class="fa-solid fa-award"></i> 階段五：結案與驗收</h2><a href="#" class="modal-close"><i class="fa-solid fa-xmark"></i></a></header>
+            <div class="modal-content">
+                <div class="highlight-box">
+                     <div class="icon"><i class="fa-solid fa-flag-checkered"></i></div>
+                     <div>
+                        <h3>關鍵時程</h3>
+                         <ul>
+                             <li><strong>11月10日前</strong>：繳交期末報告初稿、經費動支報告。</li>
+                             <li><strong>11月20日 (暫定)</strong>：期末審查會議 (結案驗收)。</li>
+                             <li><strong>11月30日前</strong>：繳交所有第二期款請款資料。</li>
+                         </ul>
+                     </div>
+                </div>
+                <h4 style="font-size: 1.2rem; margin-bottom: 20px; text-align: center; color: var(--text-dark);"><i class="fa-solid fa-box-archive" style="margin-right: 10px; color: var(--primary-color);"></i>第二期款請款文件總清單</h4>
+                <div class="card-grid">
+                    <div class="info-card"><h4><i class="fa-solid fa-1"></i> 最終版結案報告</h4></div>
+                    <div class="info-card"><h4><i class="fa-solid fa-2"></i> 會計師查核報告</h4></div>
+                    <div class="info-card"><h4><i class="fa-solid fa-3"></i> 會計核銷表格</h4></div>
+                    <div class="info-card"><h4><i class="fa-solid fa-4"></i> 相關支出證明</h4></div>
+                    <div class="info-card"><h4><i class="fa-solid fa-5"></i> 成果影片</h4></div>
+                    <div class="info-card"><h4><i class="fa-solid fa-6"></i> 第二期款收據</h4></div>
+                    <div class="info-card"><h4><i class="fa-solid fa-7"></i> 請款申請書</h4></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for Accordion
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const content = item.querySelector('.accordion-content');
+                
+                // 檢查點擊的是否是已經打開的項目
+                const isAlreadyActive = item.classList.contains('active');
+
+                // 關閉所有已開啟的項目
+                document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
+                    activeItem.classList.remove('active');
+                    activeItem.querySelector('.accordion-content').style.maxHeight = '0';
+                });
+
+                // 如果點擊的不是剛被關閉的項目，則將其打開
+                if (!isAlreadyActive) {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

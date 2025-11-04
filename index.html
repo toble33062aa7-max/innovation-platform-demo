@@ -1,3 +1,5 @@
+--- START OF FILE index.html ---
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -7,7 +9,7 @@
     
     <!-- 引入外部字體和圖示庫 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -58,18 +60,15 @@
             text-align: center;
         }
         .step-item { position: relative; }
-      /* --- 請找到並替換這段 CSS --- */
-
-	.step-item:not(:last-child)::after {
- 	   content: '';
- 	   position: absolute;
- 	   top: 40px; /* 垂直位置不變，對齊圓圈中心 */
-	    left: 50%; /* 從目前項目的水平中心開始 */
-	    width: calc(100% + 32px); /* 關鍵！寬度 = 項目寬度 + 間距 */
-	    border-top: 2px dashed var(--primary-color);
-	    opacity: 0.3;
-	    /* 移除不必要的 transform 和 right 屬性 */
-	}
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 40px; 
+            left: 50%;
+            width: calc(100% + 32px); 
+            border-top: 2px dashed var(--primary-color);
+            opacity: 0.3;
+        }
         .step-number {
             width: 80px; height: 80px;
             background: var(--primary-color); color: #fff;
@@ -81,6 +80,67 @@
             box-shadow: 0 0 0 4px var(--primary-color);
         }
         .step-item h3 { font-size: 1.2rem; margin-bottom: 8px; color: var(--primary-color); }
+        
+        /* --- 計畫重要時程區塊 (NEW) --- */
+        .key-dates-section { background-color: var(--background-color); }
+        .dates-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+        }
+        .date-card {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .date-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-shadow);
+        }
+        .date-card:not(:last-child)::after {
+            content: '\f061';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 50%;
+            right: -32px;
+            transform: translateY(-50%);
+            color: #ccc;
+            font-size: 1.2rem;
+        }
+        .date-card i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        .date-card h3 {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .date-card .date-text {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 16px;
+        }
+        .date-card p:last-of-type {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+            margin: 0;
+        }
+        .key-dates-section .section-footer {
+            text-align: center;
+            margin-top: 48px;
+        }
+
 
         /* --- 合作機會區塊 (Goal Section) --- */
         .goal-grid {
@@ -160,6 +220,8 @@
             .steps-grid { grid-template-columns: repeat(2, 1fr); }
             .step-item:nth-child(2)::after { border: none; }
             .story-grid { grid-template-columns: 1fr; }
+            .dates-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+            .date-card::after { display: none; }
         }
         @media (max-width: 768px) {
             .nav-links { display: none; }
@@ -167,6 +229,7 @@
             section { padding: 60px 0; }
             .steps-grid { grid-template-columns: 1fr; }
             .step-item::after { display: none; }
+            .dates-grid { grid-template-columns: 1fr; }
             .footer .container { flex-direction: column; text-align: center; }
             .social-links { margin-top: 16px; }
         }
@@ -227,6 +290,43 @@
                 </div>
             </div>
         </section>
+
+        <!-- 計畫重要時程區塊 (NEW) -->
+        <section class="key-dates-section">
+            <div class="container">
+                <h2 class="section-title">計畫重要時程</h2>
+                <div class="dates-grid">
+                    <div class="date-card">
+                        <i class="fa-solid fa-file-signature"></i>
+                        <h3>申請截止</h3>
+                        <p class="date-text">2025 / 05 / 15</p>
+                        <p>備妥計畫書與相關文件，完成線上提交。</p>
+                    </div>
+                    <div class="date-card">
+                        <i class="fa-solid fa-bullhorn"></i>
+                        <h3>結果公告</h3>
+                        <p class="date-text">2025 / 06 / 25</p>
+                        <p>審查結果將於平台公告，並個別通知獲選團隊。</p>
+                    </div>
+                    <div class="date-card">
+                        <i class="fa-solid fa-pen-nib"></i>
+                        <h3>簽約啟動</h3>
+                        <p class="date-text">2025 / 07 / 10</p>
+                        <p>獲選團隊需完成簽約及第一期款請領程序。</p>
+                    </div>
+                    <div class="date-card">
+                        <i class="fa-solid fa-flag-checkered"></i>
+                        <h3>結案驗收</h3>
+                        <p class="date-text">2025 / 11 / 30</p>
+                        <p>提交結案報告與請款文件，完成計畫驗收。</p>
+                    </div>
+                </div>
+                <div class="section-footer">
+                    <a href="Calendar.html" class="btn">查看完整時程與申請指引</a>
+                </div>
+            </div>
+        </section>
+
 
         <!-- 合作機會區塊 -->
         <section class="goal-section">
